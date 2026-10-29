@@ -279,6 +279,19 @@
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i, type, cmodelmag_g, cmodelmag_r, cmodelmag_i, psfmag_z FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 150.12, 2.21, 0.6) AND mode = 1 AND psfmag_r < 24"
   ]
  },
+ "gaia_dr1_counts": {
+  "rows": 12531367,
+  "bytes": 53728215,
+  "sha256": "eb7fb00d9b0346e490dd9b76bd40e0d2f3605b4ff780799cad916f211689a392",
+  "created_utc": "2026-10-29T10:54:31+00:00",
+  "columns": [
+   "hpx",
+   "n_k17"
+  ],
+  "queries": [
+   "SELECT source_id / 549755813888 AS hpx, count(*) AS n_k17 FROM gaia_dr1.gaia_source WHERE source_id >= {lo} AND source_id < {hi} AND phot_g_mean_mag BETWEEN 17 AND 21 AND astrometric_excess_noise < power(10, 0.15 * (phot_g_mean_mag - 15) + 0.25) GROUP BY 1 -- for lo = k * 2**51, hi = lo + 2**51, k = 0..3071"
+  ]
+ },
  "holdout_coverage": {
   "rows": 17712,
   "bytes": 18644,

@@ -5,3 +5,5 @@ chapters:
   - file: notebooks/01_star_galaxy_objects
   - file: notebooks/02_cmd_isochrones
   - file: notebooks/03_star_galaxy_populations
+  - file: notebooks/04_matched_filter
+  - file: notebooks/05_overdensity_search

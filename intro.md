@@ -13,8 +13,10 @@ files it needs, and backs every claim with a figure and an explicit numerical ch
 1. Star or galaxy? Classifying individual objects (SDSS, PS1, Legacy Surveys and HSC against HST)
 2. Colour–magnitude diagrams, isochrones and distance
 3. Is an overdensity made of stars? (Abell 370 vs Boötes I)
+4. The matched filter (Boötes I and the tails of Pal 5)
+5. Searching for overdensities, and calibrating the search with null patches
 
-More chapters — matched filters, overdensity searches with null calibration, likelihood fits, the Pal 5 stream,
+More chapters — likelihood fits, the Pal 5 stream,
 injection–recovery, a blind search and an all-sky Gaia search — are being added; see `STRUCTURE.md` in the
 repository.
 
