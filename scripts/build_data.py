@@ -123,7 +123,7 @@ for n in ("leo4", "virgo1", "bootes4"):
 COVERAGE = "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag " \
            "WHERE {where} AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
 LVDB_URL = "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv"
-LVDB_KEYS = ["bootes_1", "willman_1", "segue_1", "palomar_05", "leo_4", "leo_5", "virgo_1"]
+LVDB_KEYS = ["bootes_1", "willman_1", "segue_1", "palomar_05", "leo_4", "leo_5", "virgo_1", "reticulum_2", "tucana_3"]
 
 
 def check_plan(q):

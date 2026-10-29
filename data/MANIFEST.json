@@ -592,10 +592,10 @@
   ]
  },
  "lvdb": {
-  "rows": 7,
-  "bytes": 75357,
-  "sha256": "48f928a3f7963a59e86595b6f53775f196dd9b271d3120a6278ae4dd41dafd4f",
-  "created_utc": "2026-10-29T10:19:32+00:00",
+  "rows": 9,
+  "bytes": 76472,
+  "sha256": "33348dff06c55afcbbeeb4db3faf9676f6cb71ff1e0b1f637f9e3ea66d5307cd",
+  "created_utc": "2026-10-29T12:32:43+00:00",
   "columns": [
    "key",
    "ra",
