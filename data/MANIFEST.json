@@ -1,0 +1,618 @@
+{
+ "a370_hsc": {
+  "rows": 20372,
+  "bytes": 1492458,
+  "sha256": "2ba9567405da3ac73714a7aaec09711be23c456923ac98bfdd06b24e0930dad3",
+  "created_utc": "2026-10-29T10:20:05+00:00",
+  "columns": [
+   "object_id",
+   "ra",
+   "dec",
+   "g_psfflux_mag",
+   "r_psfflux_mag",
+   "i_psfflux_mag",
+   "z_psfflux_mag",
+   "g_psfflux_magerr",
+   "r_psfflux_magerr",
+   "i_psfflux_magerr",
+   "g_cmodel_mag",
+   "r_cmodel_mag",
+   "i_cmodel_mag",
+   "g_extendedness_value",
+   "r_extendedness_value",
+   "i_extendedness_value"
+  ],
+  "queries": [
+   "SELECT object_id, ra, dec, g_psfflux_mag, r_psfflux_mag, i_psfflux_mag, z_psfflux_mag, g_psfflux_magerr, r_psfflux_magerr, i_psfflux_magerr, g_cmodel_mag, r_cmodel_mag, i_cmodel_mag, g_extendedness_value, r_extendedness_value, i_extendedness_value FROM hsc_dr3.wide_summary_small WHERE q3c_radial_query(ra, dec, 39.97, -1.577, 0.33) AND r_psfflux_mag < 25"
+  ]
+ },
+ "a370_ls": {
+  "rows": 23774,
+  "bytes": 2234798,
+  "sha256": "38285ca864c122767c0884c570722359eff25aa6c33b3f9e000bbb14c6134ce8",
+  "created_utc": "2026-10-29T10:20:05+00:00",
+  "columns": [
+   "release",
+   "brickid",
+   "objid",
+   "type",
+   "ra",
+   "dec",
+   "flux_g",
+   "flux_r",
+   "flux_z",
+   "flux_w1",
+   "flux_ivar_g",
+   "flux_ivar_r",
+   "flux_ivar_z",
+   "flux_ivar_w1",
+   "mw_transmission_g",
+   "mw_transmission_r",
+   "mw_transmission_z",
+   "mw_transmission_w1",
+   "dchisq_1",
+   "dchisq_2",
+   "psfsize_r",
+   "maskbits"
+  ],
+  "queries": [
+   "SELECT release, brickid, objid, type, ra, dec, flux_g, flux_r, flux_z, flux_w1, flux_ivar_g, flux_ivar_r, flux_ivar_z, flux_ivar_w1, mw_transmission_g, mw_transmission_r, mw_transmission_z, mw_transmission_w1, dchisq_1, dchisq_2, psfsize_r, maskbits FROM decals_dr9.main WHERE q3c_radial_query(ra, dec, 39.97, -1.577, 0.33) AND ((release = 9011 AND dec > 32.375) OR (release != 9011 AND dec < 32.375)) AND flux_r > 0 AND 22.5 - 2.5 * log(flux_r) < 24"
+  ]
+ },
+ "a370_ps1": {
+  "rows": 17383,
+  "bytes": 1265634,
+  "sha256": "1a6c33fc54f4f0a199e1902785b8f21e8d712dc5e15ce3c2c4f09391bfb76fe6",
+  "created_utc": "2026-10-29T10:20:03+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "gpsfmag",
+   "rpsfmag",
+   "ipsfmag",
+   "zpsfmag",
+   "gpsfmagerr",
+   "rpsfmagerr",
+   "ipsfmagerr",
+   "rkronmag",
+   "ikronmag",
+   "ebv",
+   "ps_score"
+  ],
+  "queries": [
+   "WITH s AS MATERIALIZED (SELECT * FROM panstarrs_dr1.stackobjectthin WHERE q3c_radial_query(ra, dec, 39.97, -1.577, 0.33) AND primarydetection = 1) SELECT s.objid, s.ra, s.dec, s.gpsfmag, s.rpsfmag, s.ipsfmag, s.zpsfmag, s.gpsfmagerr, s.rpsfmagerr, s.ipsfmagerr, s.rkronmag, s.ikronmag, s.ebv, h.ps_score FROM s LEFT JOIN panstarrs_dr1.hlsp h ON h.objid = s.objid"
+  ]
+ },
+ "a370_sdss": {
+  "rows": 8421,
+  "bytes": 746483,
+  "sha256": "a07ed6ce7d3580200e04846bcc50a87011a316c3c9a373fcaaa427d2bb73bbca",
+  "created_utc": "2026-10-29T10:19:58+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i",
+   "type",
+   "cmodelmag_g",
+   "cmodelmag_r",
+   "cmodelmag_i",
+   "psfmag_z"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i, type, cmodelmag_g, cmodelmag_r, cmodelmag_i, psfmag_z FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 39.97, -1.577, 0.33) AND mode = 1 AND psfmag_r < 24"
+  ]
+ },
+ "bootes1_coverage": {
+  "rows": 1370,
+  "bytes": 4042,
+  "sha256": "aaccd3e0f41bcf10fab269de01bd02de05d01fe420307e9cdb3e2a89f5a564c8",
+  "created_utc": "2026-10-29T10:19:39+00:00",
+  "columns": [
+   "ira",
+   "idec",
+   "n"
+  ],
+  "queries": [
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 210.02, 14.5135, 2.0) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
+  ]
+ },
+ "bootes1_sdss": {
+  "rows": 58661,
+  "bytes": 4147752,
+  "sha256": "dcd9698ac1433c02259f4186c63897dc953dc185dcc39bb4ced6358355f8b723",
+  "created_utc": "2026-10-29T10:19:37+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 210.02, 14.5135, 2.0) AND mode = 1 AND type = 6 AND psfmag_g < 23"
+  ]
+ },
+ "cosmos_hsc": {
+  "rows": 93794,
+  "bytes": 7201209,
+  "sha256": "6f4cc02d45cad6f3cd2f50c37d6c23b436a31687b09dc00d9728c60787ea5e0a",
+  "created_utc": "2026-10-29T10:20:26+00:00",
+  "columns": [
+   "object_id",
+   "ra",
+   "dec",
+   "g_psfflux_mag",
+   "r_psfflux_mag",
+   "i_psfflux_mag",
+   "z_psfflux_mag",
+   "g_psfflux_magerr",
+   "r_psfflux_magerr",
+   "i_psfflux_magerr",
+   "g_cmodel_mag",
+   "r_cmodel_mag",
+   "i_cmodel_mag",
+   "g_extendedness_value",
+   "r_extendedness_value",
+   "i_extendedness_value"
+  ],
+  "queries": [
+   "SELECT object_id, ra, dec, g_psfflux_mag, r_psfflux_mag, i_psfflux_mag, z_psfflux_mag, g_psfflux_magerr, r_psfflux_magerr, i_psfflux_magerr, g_cmodel_mag, r_cmodel_mag, i_cmodel_mag, g_extendedness_value, r_extendedness_value, i_extendedness_value FROM hsc_dr3.wide_summary_small WHERE q3c_radial_query(ra, dec, 150.12, 2.21, 0.6) AND r_psfflux_mag < 25"
+  ]
+ },
+ "cosmos_hst": {
+  "rows": 264581,
+  "bytes": 7913382,
+  "sha256": "a011ead50d8ea4544f20bd1383e42efabc4df1ca58f199046d8db980b0f1514e",
+  "created_utc": "2026-10-29T10:20:29+00:00",
+  "columns": [
+   "ra",
+   "dec",
+   "mag_auto",
+   "mu_class",
+   "flux_radius",
+   "class_star"
+  ],
+  "queries": [
+   "SELECT ra, dec, mag_auto, mu_class, flux_radius, class_star FROM cosmos.hstcat WHERE q3c_radial_query(ra, dec, 150.12, 2.21, 0.6) AND mag_auto < 25.5"
+  ]
+ },
+ "cosmos_ls": {
+  "rows": 70821,
+  "bytes": 6626781,
+  "sha256": "befc9379b1dd234f5cf0cf0de19055cc468513ff2a77c316ebf96cbecafb05f4",
+  "created_utc": "2026-10-29T10:20:21+00:00",
+  "columns": [
+   "release",
+   "brickid",
+   "objid",
+   "type",
+   "ra",
+   "dec",
+   "flux_g",
+   "flux_r",
+   "flux_z",
+   "flux_w1",
+   "flux_ivar_g",
+   "flux_ivar_r",
+   "flux_ivar_z",
+   "flux_ivar_w1",
+   "mw_transmission_g",
+   "mw_transmission_r",
+   "mw_transmission_z",
+   "mw_transmission_w1",
+   "dchisq_1",
+   "dchisq_2",
+   "psfsize_r",
+   "maskbits"
+  ],
+  "queries": [
+   "SELECT release, brickid, objid, type, ra, dec, flux_g, flux_r, flux_z, flux_w1, flux_ivar_g, flux_ivar_r, flux_ivar_z, flux_ivar_w1, mw_transmission_g, mw_transmission_r, mw_transmission_z, mw_transmission_w1, dchisq_1, dchisq_2, psfsize_r, maskbits FROM decals_dr9.main WHERE q3c_radial_query(ra, dec, 150.12, 2.21, 0.6) AND ((release = 9011 AND dec > 32.375) OR (release != 9011 AND dec < 32.375)) AND flux_r > 0 AND 22.5 - 2.5 * log(flux_r) < 24"
+  ]
+ },
+ "cosmos_ps1": {
+  "rows": 82319,
+  "bytes": 5534345,
+  "sha256": "1171e1e32de8f31dcd1f07a8dbd61e547360bc1acd0d80338a98b264c2d38f2f",
+  "created_utc": "2026-10-29T10:20:18+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "gpsfmag",
+   "rpsfmag",
+   "ipsfmag",
+   "zpsfmag",
+   "gpsfmagerr",
+   "rpsfmagerr",
+   "ipsfmagerr",
+   "rkronmag",
+   "ikronmag",
+   "ebv",
+   "ps_score"
+  ],
+  "queries": [
+   "WITH s AS MATERIALIZED (SELECT * FROM panstarrs_dr1.stackobjectthin WHERE q3c_radial_query(ra, dec, 150.12, 2.21, 0.6) AND primarydetection = 1) SELECT s.objid, s.ra, s.dec, s.gpsfmag, s.rpsfmag, s.ipsfmag, s.zpsfmag, s.gpsfmagerr, s.rpsfmagerr, s.ipsfmagerr, s.rkronmag, s.ikronmag, s.ebv, h.ps_score FROM s LEFT JOIN panstarrs_dr1.hlsp h ON h.objid = s.objid"
+  ]
+ },
+ "cosmos_sdss": {
+  "rows": 25951,
+  "bytes": 2322023,
+  "sha256": "9a4cb6f5ce2db272e8987766aceb8753c1021bab5816798d7bf07e58cf679861",
+  "created_utc": "2026-10-29T10:20:07+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i",
+   "type",
+   "cmodelmag_g",
+   "cmodelmag_r",
+   "cmodelmag_i",
+   "psfmag_z"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i, type, cmodelmag_g, cmodelmag_r, cmodelmag_i, psfmag_z FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 150.12, 2.21, 0.6) AND mode = 1 AND psfmag_r < 24"
+  ]
+ },
+ "holdout_coverage": {
+  "rows": 17712,
+  "bytes": 18644,
+  "sha256": "1089ec62efac397cd20ad5c09cdec8a45cc641c10af743fe51a1b7cc635f7fec",
+  "created_utc": "2026-10-29T10:24:02+00:00",
+  "columns": [
+   "ira",
+   "idec",
+   "n"
+  ],
+  "queries": [
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[165.0, -3.0, 167.0, -3.0, 167.0, 8.0, 165.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[167.0, -3.0, 169.0, -3.0, 169.0, 8.0, 167.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[169.0, -3.0, 171.0, -3.0, 171.0, 8.0, 169.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[171.0, -3.0, 173.0, -3.0, 173.0, 8.0, 171.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[173.0, -3.0, 175.0, -3.0, 175.0, 8.0, 173.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[175.0, -3.0, 177.0, -3.0, 177.0, 8.0, 175.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[177.0, -3.0, 179.0, -3.0, 179.0, 8.0, 177.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[179.0, -3.0, 181.0, -3.0, 181.0, 8.0, 179.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
+  ]
+ },
+ "holdout_sdss": {
+  "rows": 418496,
+  "bytes": 26058469,
+  "sha256": "b050a00495aecf745d40090b5c633a8cabd5994717e9a88896f1f543f45bf462",
+  "created_utc": "2026-10-29T10:23:40+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[165.0, -3.0, 167.0, -3.0, 167.0, 8.0, 165.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[167.0, -3.0, 169.0, -3.0, 169.0, 8.0, 167.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[169.0, -3.0, 171.0, -3.0, 171.0, 8.0, 169.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[171.0, -3.0, 173.0, -3.0, 173.0, 8.0, 171.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[173.0, -3.0, 175.0, -3.0, 175.0, 8.0, 173.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[175.0, -3.0, 177.0, -3.0, 177.0, 8.0, 175.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[177.0, -3.0, 179.0, -3.0, 179.0, 8.0, 177.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[179.0, -3.0, 181.0, -3.0, 181.0, 8.0, 179.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5"
+  ]
+ },
+ "isochrones_sdss": {
+  "rows": 11525,
+  "bytes": 319307,
+  "sha256": "d5f9dc9dacb26c205f416958f3b0ea1b9c5c924150f3077a9c69a2c3ab6ccde6",
+  "created_utc": "2026-10-29T10:19:32+00:00",
+  "columns": [
+   "logage",
+   "feh",
+   "m_ini",
+   "int_imf",
+   "stage",
+   "u",
+   "g",
+   "r",
+   "i",
+   "z"
+  ],
+  "queries": [
+   "SELECT logage, feh, m_ini, int_imf, stage, u, g, r, i, z FROM isochrones.girardi_sdss_ugriz_1601 WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99 ORDER BY logage, feh, m_ini"
+  ]
+ },
+ "lvdb": {
+  "rows": 7,
+  "bytes": 75357,
+  "sha256": "48f928a3f7963a59e86595b6f53775f196dd9b271d3120a6278ae4dd41dafd4f",
+  "created_utc": "2026-10-29T10:19:32+00:00",
+  "columns": [
+   "key",
+   "ra",
+   "dec",
+   "name",
+   "host",
+   "confirmed_real",
+   "confirmed_galaxy",
+   "rhalf",
+   "rhalf_em",
+   "rhalf_ep",
+   "position_angle",
+   "position_angle_em",
+   "position_angle_ep",
+   "ellipticity",
+   "ellipticity_em",
+   "ellipticity_ep",
+   "ellipticity_ul",
+   "ref_structure",
+   "distance_modulus",
+   "distance_modulus_em",
+   "distance_modulus_ep",
+   "ref_distance",
+   "apparent_magnitude_v",
+   "apparent_magnitude_v_em",
+   "apparent_magnitude_v_ep",
+   "ref_m_v",
+   "vlos_systemic",
+   "vlos_systemic_em",
+   "vlos_systemic_ep",
+   "vlos_sigma",
+   "vlos_sigma_em",
+   "vlos_sigma_ep",
+   "vlos_sigma_ul",
+   "ref_vlos",
+   "pmra",
+   "pmra_em",
+   "pmra_ep",
+   "pmdec",
+   "pmdec_em",
+   "pmdec_ep",
+   "ref_proper_motion",
+   "metallicity_spectroscopic",
+   "metallicity_spectroscopic_em",
+   "metallicity_spectroscopic_ep",
+   "metallicity_spectroscopic_sigma",
+   "metallicity_spectroscopic_sigma_em",
+   "metallicity_spectroscopic_sigma_ep",
+   "metallicity_spectroscopic_sigma_ul",
+   "ref_metallicity_spectroscopic",
+   "rcore",
+   "rcore_em",
+   "rcore_ep",
+   "rking",
+   "rking_em",
+   "rking_ep",
+   "ref_structure_king",
+   "rad_sersic",
+   "rad_sersic_em",
+   "rad_sersic_ep",
+   "n_sersic",
+   "n_sersic_em",
+   "n_sersic_ep",
+   "ref_structure_sersic",
+   "age",
+   "age_em",
+   "age_ep",
+   "ref_age",
+   "metallicity_isochrone",
+   "metallicity_isochrone_em",
+   "metallicity_isochrone_ep",
+   "ref_metallicity_isochrone",
+   "flux_HI",
+   "flux_HI_em",
+   "flux_HI_ep",
+   "flux_HI_ul",
+   "ref_flux_HI",
+   "metallicity_photometric",
+   "metallicity_photometric_em",
+   "metallicity_photometric_ep",
+   "metallicity_photometric_sigma",
+   "metallicity_photometric_sigma_em",
+   "metallicity_photometric_sigma_ep",
+   "metallicity_photometric_sigma_ul",
+   "ref_metallicity_photometric",
+   "M_V",
+   "M_V_em",
+   "M_V_ep",
+   "mass_stellar",
+   "distance",
+   "distance_em",
+   "distance_ep",
+   "ll",
+   "bb",
+   "sg_xx",
+   "sg_yy",
+   "sg_zz",
+   "distance_gc",
+   "distance_m31",
+   "distance_lg",
+   "distance_host",
+   "mass_HI",
+   "mass_HI_ul",
+   "metallicity",
+   "metallicity_em",
+   "metallicity_ep",
+   "metallicity_type",
+   "velocity_gsr",
+   "velocity_lg",
+   "mass_dynamical_wolf",
+   "mass_dynamical_wolf_em",
+   "mass_dynamical_wolf_ep",
+   "mass_dynamical_wolf_ul",
+   "rhalf_physical",
+   "rhalf_physical_em",
+   "rhalf_physical_ep",
+   "rhalf_sph_physical",
+   "rhalf_sph_physical_em",
+   "rhalf_sph_physical_ep",
+   "surface_brightness_rhalf",
+   "distance_measurement_method",
+   "table",
+   "confirmed_star_cluster"
+  ],
+  "queries": [
+   "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv"
+  ]
+ },
+ "pal5_coverage": {
+  "rows": 24458,
+  "bytes": 31198,
+  "sha256": "f0f4fdac27fcbaf085fe4e31e130dcc3f22fd9fd8a17e8c10650ac213c7c2a0c",
+  "created_utc": "2026-10-29T10:22:51+00:00",
+  "columns": [
+   "ira",
+   "idec",
+   "n"
+  ],
+  "queries": [
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[222.0, -8.0, 224.0, -8.0, 224.0, 8.0, 222.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[224.0, -8.0, 226.0, -8.0, 226.0, 8.0, 224.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[226.0, -8.0, 228.0, -8.0, 228.0, 8.0, 226.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[228.0, -8.0, 230.0, -8.0, 230.0, 8.0, 228.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[230.0, -8.0, 232.0, -8.0, 232.0, 8.0, 230.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[232.0, -8.0, 234.0, -8.0, 234.0, 8.0, 232.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[234.0, -8.0, 236.0, -8.0, 236.0, 8.0, 234.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[236.0, -8.0, 238.0, -8.0, 238.0, 8.0, 236.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[238.0, -8.0, 240.0, -8.0, 240.0, 8.0, 238.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[240.0, -8.0, 242.0, -8.0, 242.0, 8.0, 240.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2",
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[242.0, -8.0, 244.0, -8.0, 244.0, 8.0, 242.0, 8.0]) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
+  ]
+ },
+ "pal5_sdss": {
+  "rows": 1256881,
+  "bytes": 70345443,
+  "sha256": "1fbbea70658fb4497d2c8b51c401737d26f704802605a3c3533a4e5a8563dde3",
+  "created_utc": "2026-10-29T10:22:14+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[222.0, -8.0, 224.0, -8.0, 224.0, 8.0, 222.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[224.0, -8.0, 226.0, -8.0, 226.0, 8.0, 224.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[226.0, -8.0, 228.0, -8.0, 228.0, 8.0, 226.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[228.0, -8.0, 230.0, -8.0, 230.0, 8.0, 228.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[230.0, -8.0, 232.0, -8.0, 232.0, 8.0, 230.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[232.0, -8.0, 234.0, -8.0, 234.0, 8.0, 232.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[234.0, -8.0, 236.0, -8.0, 236.0, 8.0, 234.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[236.0, -8.0, 238.0, -8.0, 238.0, 8.0, 236.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[238.0, -8.0, 240.0, -8.0, 240.0, 8.0, 238.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[240.0, -8.0, 242.0, -8.0, 242.0, 8.0, 240.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[242.0, -8.0, 244.0, -8.0, 244.0, 8.0, 242.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5"
+  ]
+ },
+ "segue1_coverage": {
+  "rows": 792,
+  "bytes": 3466,
+  "sha256": "54a863df864ac76fd0e97b8fcd4b1e64b6ea7dc430df049ea30f7191a3d45c59",
+  "created_utc": "2026-10-29T10:19:58+00:00",
+  "columns": [
+   "ira",
+   "idec",
+   "n"
+  ],
+  "queries": [
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 151.7504, 16.0756, 1.5) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
+  ]
+ },
+ "segue1_sdss": {
+  "rows": 29481,
+  "bytes": 2048051,
+  "sha256": "f1ddfc79a4b39a0a506fec4a01e4ef1c593e5ea55097fa2e92501a53b863ef2c",
+  "created_utc": "2026-10-29T10:19:55+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 151.7504, 16.0756, 1.5) AND mode = 1 AND type = 6 AND psfmag_g < 23"
+  ]
+ },
+ "willman1_coverage": {
+  "rows": 1194,
+  "bytes": 3901,
+  "sha256": "8eb28090bc39ffe5d117b060f1ff0c1c5374cf10eef215d1e2b4e2f12d9b7ad0",
+  "created_utc": "2026-10-29T10:19:56+00:00",
+  "columns": [
+   "ira",
+   "idec",
+   "n"
+  ],
+  "queries": [
+   "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 162.3436, 51.0501, 1.5) AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
+  ]
+ },
+ "willman1_sdss": {
+  "rows": 23057,
+  "bytes": 1605053,
+  "sha256": "24d8c27c35e5bf38067d43134148b8dbf7a5f84c1a1e9f9d3393191fabc5ecb4",
+  "created_utc": "2026-10-29T10:19:51+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 162.3436, 51.0501, 1.5) AND mode = 1 AND type = 6 AND psfmag_g < 23"
+  ]
+ }
+}

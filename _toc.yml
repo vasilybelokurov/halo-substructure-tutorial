@@ -1,0 +1,7 @@
+format: jb-book
+root: intro
+chapters:
+  - file: notebooks/00_data
+  - file: notebooks/01_star_galaxy_objects
+  - file: notebooks/02_cmd_isochrones
+  - file: notebooks/03_star_galaxy_populations
