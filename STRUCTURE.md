@@ -99,7 +99,7 @@ Licences and acknowledgements are listed per product in `data/README.md`.
 |---|---|---|---|
 | 11 | Southern satellites in DES DR2: Reticulum II, Tucana III and its tails — **built** | DES DR2 | Ret II r_h, ε, PA vs LVDB (Mutlu-Pakdil+18); Tuc III tail PA within 10° of Shipp+19 track; both tails > 3σ (measured 10σ) |
 | 12 | Faint and deep: the survey ladder (Leo IV, Virgo I, Boötes IV in SDSS, PS1, LS, HSC) — **built** | all | each survey against its own null; HSC recovers Virgo I and Boötes IV, SDSS misses Virgo I; NGC 4030 shredded-galaxy peak noted |
-| 12 | Gaia proper motions and membership (Pace & Li 19) | Gaia DR3 | systemic PM within the 99% combined ellipse of LVDB |
+| 13 | Gaia proper motions and membership (Pace & Li 19): Boötes I, Crater 2 — **built** | Gaia DR3 | systemic PM within the 99% ellipse of LVDB (Pace+22) incl. 0.025 mas/yr systematic floor (Vasiliev & Baumgardt 21); measured χ² 0.05 (Boötes I) |
 | 13 | Luminosity and classification | — | M_V posterior coverage on stochastic simulations |
 | 14 | Wide-area stream maps | SDSS HEALPix count maps | excess in two disjoint segments vs control strips |
 | 15 | GD-1 with Gaia + PS1 | Gaia DR3, PS1 | independently fitted track vs `galstreams` on held-out bins |

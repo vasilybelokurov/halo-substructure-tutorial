@@ -22,6 +22,7 @@ files it needs, and backs every claim with a figure and an explicit numerical ch
 10. An all-sky search with Gaia (Koposov et al. 2017 with DR1 and DR3)
 11. Deeper and southern: Reticulum II and the tails of Tucana III in DES
 12. Faint and deep: the survey ladder (Leo IV, Virgo I, Boötes IV in SDSS, PS1, Legacy Surveys, HSC)
+13. Proper motions and membership with Gaia (Boötes I, Crater 2)
 
 Later chapters are planned in `STRUCTURE.md` in the repository.
 

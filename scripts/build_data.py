@@ -106,6 +106,16 @@ QUERIES.update({
                           WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99
                           ORDER BY logage, feh, m_ini"""],
 })
+# Chapter 13: Gaia DR3 astrometry around Boötes I (1.5 deg) and Crater 2 (2.5 deg), with the full PM covariance.
+CONES.update({"bootes1_gaia": (210.0200, 14.5135, 1.5), "crater2_gaia": (177.3100, -18.4130, 2.5)})
+GAIA_AST = """source_id, ra, dec, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, pmra_pmdec_corr,
+              phot_g_mean_mag, bp_rp, ruwe, astrometric_excess_noise, phot_bp_rp_excess_factor"""
+QUERIES["isochrones_gaia"] = ["""SELECT age, feh, mini, label, gmag, g_bpmag, g_rpmag FROM isochrones.gaia_1804
+                                 WHERE age >= 1e10 AND feh <= -1.0 ORDER BY age, feh, mini"""]
+for n in ("bootes1_gaia", "crater2_gaia"):
+    QUERIES[n] = [f"""SELECT {GAIA_AST} FROM gaia_dr3.gaia_source WHERE {cone(n)}
+                      AND pmra IS NOT NULL AND phot_g_mean_mag < 21"""]
+
 # The ladder: point sources by each survey's own classifier, to each survey's depth.
 for n in ("leo4", "virgo1", "bootes4"):
     QUERIES[f"{n}_sdss"] = [sdss_points(cone(n))]
@@ -159,11 +169,13 @@ def build(name):
     t = time.time()
     if name in GAIA_COUNTS:
         return build_gaia_counts(name)
-    if name in ("lvdb", "lvdb_mw"):
+    if name in ("lvdb", "lvdb_mw", "lvdb_pm"):
         csv = urllib.request.urlopen(LVDB_URL).read().decode()
         d = pd.read_csv(StringIO(csv))
         if name == "lvdb":
             return save(name, d[d.key.isin(LVDB_KEYS)].reset_index(drop=True), [LVDB_URL])
+        if name == "lvdb_pm":                                    # Chapter 13: published files are never changed in place
+            return save(name, d[d.key.isin(["bootes_1", "crater_2"])].reset_index(drop=True), [LVDB_URL])
         # all Milky Way satellites and star clusters (host = mw), a few columns
         cols = ["key", "name", "ra", "dec", "distance_modulus", "rhalf", "M_V", "confirmed_galaxy", "confirmed_star_cluster", "table"]
         return save(name, d.loc[d.host == "mw", cols].reset_index(drop=True), [LVDB_URL + "  (host == 'mw')"])
@@ -227,7 +239,7 @@ def build_gaia_counts(name, workers=4):
     partial.unlink()
 
 
-ALL = list(QUERIES) + [f"{n}_coverage" for n in ("bootes1", "willman1", "segue1", "pal5", "holdout")] + ["lvdb", "lvdb_mw"] \
+ALL = list(QUERIES) + [f"{n}_coverage" for n in ("bootes1", "willman1", "segue1", "pal5", "holdout")] + ["lvdb", "lvdb_mw", "lvdb_pm"] \
       + list(GAIA_COUNTS)
 
 if __name__ == "__main__":

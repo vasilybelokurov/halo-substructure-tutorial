@@ -14,3 +14,4 @@ chapters:
   - file: notebooks/10_gaia_allsky
   - file: notebooks/11_des_satellites
   - file: notebooks/12_survey_ladder
+  - file: notebooks/13_gaia_membership
