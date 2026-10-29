@@ -9,3 +9,5 @@ chapters:
   - file: notebooks/05_overdensity_search
   - file: notebooks/06_likelihood
   - file: notebooks/07_pal5_stream
+  - file: notebooks/08_injection_recovery
+  - file: notebooks/09_blind_search

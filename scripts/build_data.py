@@ -125,10 +125,14 @@ def build(name):
     t = time.time()
     if name in GAIA_COUNTS:
         return build_gaia_counts(name)
-    if name == "lvdb":
+    if name in ("lvdb", "lvdb_mw"):
         csv = urllib.request.urlopen(LVDB_URL).read().decode()
         d = pd.read_csv(StringIO(csv))
-        return save(name, d[d.key.isin(LVDB_KEYS)].reset_index(drop=True), [LVDB_URL])
+        if name == "lvdb":
+            return save(name, d[d.key.isin(LVDB_KEYS)].reset_index(drop=True), [LVDB_URL])
+        # all Milky Way satellites and star clusters (host = mw), a few columns
+        cols = ["key", "name", "ra", "dec", "distance_modulus", "rhalf", "M_V", "confirmed_galaxy", "confirmed_star_cluster", "table"]
+        return save(name, d.loc[d.host == "mw", cols].reset_index(drop=True), [LVDB_URL + "  (host == 'mw')"])
     if name.endswith("_coverage"):
         base = name.removesuffix("_coverage")
         wheres = list(box_tiles(base)) if base in BOXES else [cone(base)]
@@ -189,7 +193,7 @@ def build_gaia_counts(name, workers=4):
     partial.unlink()
 
 
-ALL = list(QUERIES) + [f"{n}_coverage" for n in ("bootes1", "willman1", "segue1", "pal5", "holdout")] + ["lvdb"] \
+ALL = list(QUERIES) + [f"{n}_coverage" for n in ("bootes1", "willman1", "segue1", "pal5", "holdout")] + ["lvdb", "lvdb_mw"] \
       + list(GAIA_COUNTS)
 
 if __name__ == "__main__":

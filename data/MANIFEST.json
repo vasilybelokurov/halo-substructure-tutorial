@@ -497,6 +497,27 @@
    "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv"
   ]
  },
+ "lvdb_mw": {
+  "rows": 312,
+  "bytes": 18611,
+  "sha256": "c651a7f6ac875b70e66553f4fea141e2876ac87688a2dddf0475d697e36fe817",
+  "created_utc": "2026-10-29T11:33:49+00:00",
+  "columns": [
+   "key",
+   "name",
+   "ra",
+   "dec",
+   "distance_modulus",
+   "rhalf",
+   "M_V",
+   "confirmed_galaxy",
+   "confirmed_star_cluster",
+   "table"
+  ],
+  "queries": [
+   "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv (host == 'mw')"
+  ]
+ },
  "pal5_coverage": {
   "rows": 24458,
   "bytes": 31198,

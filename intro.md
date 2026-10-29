@@ -17,9 +17,10 @@ files it needs, and backs every claim with a figure and an explicit numerical ch
 5. Searching for overdensities, and calibrating the search with null patches
 6. An unbinned likelihood: the structure of Boötes I
 7. A stellar stream: the tidal tails of Pal 5
+8. What would we have missed? Injection and recovery
+9. A blind search
 
-More chapters — injection–recovery, a blind search and an all-sky Gaia search — are being added; see `STRUCTURE.md` in the
-repository.
+An all-sky Gaia search (reproducing Koposov et al. 2017 with DR1 and DR3) is being added; later chapters are planned in `STRUCTURE.md` in the repository.
 
 **Prerequisites.** Basic Python (numpy, matplotlib) and elementary astronomy (magnitudes, colours).
 
