@@ -5,7 +5,7 @@ only_build_toc_files: true
 exclude_patterns: [_build, .pytest_cache, "**/.pytest_cache", README.md, AGENTS.md, STRUCTURE.md, prototypes, data]
 
 execute:
-  execute_notebooks: force
+  execute_notebooks: 'off'     # notebooks are executed (and checked) by pytest --nbmake --overwrite in CI
   timeout: 1200
 
 repository:

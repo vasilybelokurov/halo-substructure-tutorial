@@ -19,8 +19,9 @@ files it needs, and backs every claim with a figure and an explicit numerical ch
 7. A stellar stream: the tidal tails of Pal 5
 8. What would we have missed? Injection and recovery
 9. A blind search
+10. An all-sky search with Gaia (Koposov et al. 2017 with DR1 and DR3)
 
-An all-sky Gaia search (reproducing Koposov et al. 2017 with DR1 and DR3) is being added; later chapters are planned in `STRUCTURE.md` in the repository.
+Later chapters are planned in `STRUCTURE.md` in the repository.
 
 **Prerequisites.** Basic Python (numpy, matplotlib) and elementary astronomy (magnitudes, colours).
 

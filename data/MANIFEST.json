@@ -149,6 +149,92 @@
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 210.02, 14.5135, 2.0) AND mode = 1 AND type = 6 AND psfmag_g < 23"
   ]
  },
+ "bootes4_hsc": {
+  "rows": 12133,
+  "bytes": 580587,
+  "sha256": "104c6d6b690102577d7972476f12da57a5c979d9261b3b947b8b315449d30eae",
+  "created_utc": "2026-10-29T12:27:43+00:00",
+  "columns": [
+   "object_id",
+   "ra",
+   "dec",
+   "g_psfflux_mag",
+   "r_psfflux_mag",
+   "i_psfflux_mag",
+   "g_psfflux_magerr",
+   "r_psfflux_magerr"
+  ],
+  "queries": [
+   "SELECT object_id, ra, dec, g_psfflux_mag, r_psfflux_mag, i_psfflux_mag, g_psfflux_magerr, r_psfflux_magerr FROM hsc_dr3.wide_summary_small WHERE q3c_radial_query(ra, dec, 233.689, 43.726, 0.75) AND i_extendedness_value = 0 AND g_psfflux_mag < 25.5"
+  ]
+ },
+ "bootes4_ls": {
+  "rows": 27884,
+  "bytes": 1741041,
+  "sha256": "a6f2652092127be74f345f3ec07f3cc2a8aae82256f37b129fa4a75909184464",
+  "created_utc": "2026-10-29T12:27:40+00:00",
+  "columns": [
+   "release",
+   "brickid",
+   "objid",
+   "ra",
+   "dec",
+   "flux_g",
+   "flux_r",
+   "flux_z",
+   "flux_ivar_g",
+   "flux_ivar_r",
+   "mw_transmission_g",
+   "mw_transmission_r",
+   "ebv"
+  ],
+  "queries": [
+   "SELECT release, brickid, objid, ra, dec, flux_g, flux_r, flux_z, flux_ivar_g, flux_ivar_r, mw_transmission_g, mw_transmission_r, ebv FROM decals_dr9.main WHERE q3c_radial_query(ra, dec, 233.689, 43.726, 0.75) AND ((release = 9011 AND dec > 32.375) OR (release != 9011 AND dec < 32.375)) AND type = 'PSF' AND flux_g > 0 AND flux_r > 0 AND 22.5 - 2.5 * log(flux_g) < 24.5"
+  ]
+ },
+ "bootes4_ps1": {
+  "rows": 12975,
+  "bytes": 732076,
+  "sha256": "be97c2f4e981c1fe539d018c4430521d4f4f133b1bb77365cf7619a73d37460f",
+  "created_utc": "2026-10-29T12:27:38+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "gpsfmag",
+   "rpsfmag",
+   "ipsfmag",
+   "gpsfmagerr",
+   "rpsfmagerr",
+   "ebv"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, gpsfmag, rpsfmag, ipsfmag, gpsfmagerr, rpsfmagerr, ebv FROM panstarrs_dr1.stackobjectthin WHERE q3c_radial_query(ra, dec, 233.689, 43.726, 0.75) AND primarydetection = 1 AND rpsfmag > 0 AND rkronmag > 0 AND rpsfmag - rkronmag < 0.05 AND gpsfmag BETWEEN 0 AND 23.5"
+  ]
+ },
+ "bootes4_sdss": {
+  "rows": 8851,
+  "bytes": 605306,
+  "sha256": "d5234d6cfb4425d2cb1cf8c30ecc74a6eb9d4e1618db3d416c4d32ae752cfdef",
+  "created_utc": "2026-10-29T12:27:35+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 233.689, 43.726, 0.75) AND mode = 1 AND type = 6 AND psfmag_g < 23"
+  ]
+ },
  "cosmos_hsc": {
   "rows": 93794,
   "bytes": 7201209,
@@ -292,6 +378,21 @@
    "SELECT source_id / 549755813888 AS hpx, count(*) AS n_k17 FROM gaia_dr1.gaia_source WHERE source_id >= {lo} AND source_id < {hi} AND phot_g_mean_mag BETWEEN 17 AND 21 AND astrometric_excess_noise < power(10, 0.15 * (phot_g_mean_mag - 15) + 0.25) GROUP BY 1 -- for lo = k * 2**51, hi = lo + 2**51, k = 0..3071"
   ]
  },
+ "gaia_dr3_counts": {
+  "rows": 12579897,
+  "bytes": 75830190,
+  "sha256": "95481ebeb825a1e7edb662caa0c304fe6bc719a4c9cb83782786443c13cd0a83",
+  "created_utc": "2026-10-29T12:20:10+00:00",
+  "columns": [
+   "hpx",
+   "n_k17",
+   "n_far",
+   "n_far_cmd"
+  ],
+  "queries": [
+   "SELECT source_id / 549755813888 AS hpx, count(*) AS n_k17, count(*) FILTER (WHERE NOT COALESCE(parallax - 3 * parallax_error > 1, false)) AS n_far, count(*) FILTER (WHERE NOT COALESCE(parallax - 3 * parallax_error > 1, false) AND bp_rp BETWEEN 0.3 AND 1.3) AS n_far_cmd FROM gaia_dr3.gaia_source WHERE source_id >= {lo} AND source_id < {hi} AND phot_g_mean_mag BETWEEN 17 AND 21 AND astrometric_excess_noise < power(10, 0.15 * (phot_g_mean_mag - 15) + 0.25) GROUP BY 1 -- for lo = k * 2**51, hi = lo + 2**51, k = 0..3071"
+  ]
+ },
  "holdout_coverage": {
   "rows": 17712,
   "bytes": 18644,
@@ -343,6 +444,46 @@
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[179.0, -3.0, 181.0, -3.0, 181.0, 8.0, 179.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5"
   ]
  },
+ "isochrones_des": {
+  "rows": 11525,
+  "bytes": 280354,
+  "sha256": "7f4741c66f0a7ec1ecf1f7922eadc309a381a02a962bd045da5a408513dc14cc",
+  "created_utc": "2026-10-29T12:20:19+00:00",
+  "columns": [
+   "logage",
+   "feh",
+   "m_ini",
+   "int_imf",
+   "stage",
+   "g",
+   "r",
+   "i",
+   "z"
+  ],
+  "queries": [
+   "SELECT logage, feh, m_ini, int_imf, stage, g, r, i, z FROM isochrones.girardi_des_ugrizy_1601 WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99 ORDER BY logage, feh, m_ini"
+  ]
+ },
+ "isochrones_ps1": {
+  "rows": 11524,
+  "bytes": 280586,
+  "sha256": "69c500f018ea05a4872eb38ba24848265b3f0d1d0deff7f57105803adda96314",
+  "created_utc": "2026-10-29T12:20:20+00:00",
+  "columns": [
+   "logage",
+   "feh",
+   "m_ini",
+   "int_imf",
+   "stage",
+   "g",
+   "r",
+   "i",
+   "z"
+  ],
+  "queries": [
+   "SELECT logage, feh, m_ini, int_imf, stage, g, r, i, z FROM isochrones.girardi_panstarrs_grizy_1701 WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99 ORDER BY logage, feh, m_ini"
+  ]
+ },
  "isochrones_sdss": {
   "rows": 11525,
   "bytes": 319307,
@@ -362,6 +503,92 @@
   ],
   "queries": [
    "SELECT logage, feh, m_ini, int_imf, stage, u, g, r, i, z FROM isochrones.girardi_sdss_ugriz_1601 WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99 ORDER BY logage, feh, m_ini"
+  ]
+ },
+ "leo4_hsc": {
+  "rows": 11687,
+  "bytes": 563661,
+  "sha256": "a0f7d19ffda84ae10b50364a82e515b9796f57adccf271ee3472b7ad7761e440",
+  "created_utc": "2026-10-29T12:27:20+00:00",
+  "columns": [
+   "object_id",
+   "ra",
+   "dec",
+   "g_psfflux_mag",
+   "r_psfflux_mag",
+   "i_psfflux_mag",
+   "g_psfflux_magerr",
+   "r_psfflux_magerr"
+  ],
+  "queries": [
+   "SELECT object_id, ra, dec, g_psfflux_mag, r_psfflux_mag, i_psfflux_mag, g_psfflux_magerr, r_psfflux_magerr FROM hsc_dr3.wide_summary_small WHERE q3c_radial_query(ra, dec, 173.2405, -0.5453, 0.75) AND i_extendedness_value = 0 AND g_psfflux_mag < 25.5"
+  ]
+ },
+ "leo4_ls": {
+  "rows": 28172,
+  "bytes": 1766117,
+  "sha256": "3643e339653658326ec06d3138c72cab8d59d18850f0db94afec09a13ea8fbe5",
+  "created_utc": "2026-10-29T12:27:17+00:00",
+  "columns": [
+   "release",
+   "brickid",
+   "objid",
+   "ra",
+   "dec",
+   "flux_g",
+   "flux_r",
+   "flux_z",
+   "flux_ivar_g",
+   "flux_ivar_r",
+   "mw_transmission_g",
+   "mw_transmission_r",
+   "ebv"
+  ],
+  "queries": [
+   "SELECT release, brickid, objid, ra, dec, flux_g, flux_r, flux_z, flux_ivar_g, flux_ivar_r, mw_transmission_g, mw_transmission_r, ebv FROM decals_dr9.main WHERE q3c_radial_query(ra, dec, 173.2405, -0.5453, 0.75) AND ((release = 9011 AND dec > 32.375) OR (release != 9011 AND dec < 32.375)) AND type = 'PSF' AND flux_g > 0 AND flux_r > 0 AND 22.5 - 2.5 * log(flux_g) < 24.5"
+  ]
+ },
+ "leo4_ps1": {
+  "rows": 11718,
+  "bytes": 666809,
+  "sha256": "707fc2501ec091e76384648961857331f1efe6be783bf0c18c7d40465d48de7c",
+  "created_utc": "2026-10-29T12:27:13+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "gpsfmag",
+   "rpsfmag",
+   "ipsfmag",
+   "gpsfmagerr",
+   "rpsfmagerr",
+   "ebv"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, gpsfmag, rpsfmag, ipsfmag, gpsfmagerr, rpsfmagerr, ebv FROM panstarrs_dr1.stackobjectthin WHERE q3c_radial_query(ra, dec, 173.2405, -0.5453, 0.75) AND primarydetection = 1 AND rpsfmag > 0 AND rkronmag > 0 AND rpsfmag - rkronmag < 0.05 AND gpsfmag BETWEEN 0 AND 23.5"
+  ]
+ },
+ "leo4_sdss": {
+  "rows": 8225,
+  "bytes": 562121,
+  "sha256": "f10e9ab85b0ee88af81c6c5a5beb39b0679a60222f5b32b451df652be3650305",
+  "created_utc": "2026-10-29T12:27:10+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 173.2405, -0.5453, 0.75) AND mode = 1 AND type = 6 AND psfmag_g < 23"
   ]
  },
  "lvdb": {
@@ -575,6 +802,27 @@
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[242.0, -8.0, 244.0, -8.0, 244.0, 8.0, 242.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5"
   ]
  },
+ "retii_des": {
+  "rows": 289664,
+  "bytes": 9992323,
+  "sha256": "692e8fcf9d364cfbde0d34a775bc0748e63207da6a790b2fa138ae5589069b64",
+  "created_utc": "2026-10-29T12:21:59+00:00",
+  "columns": [
+   "coadd_object_id",
+   "ra",
+   "dec",
+   "wavg_mag_psf_g",
+   "wavg_mag_psf_r",
+   "wavg_mag_psf_i",
+   "wavg_magerr_psf_g",
+   "wavg_magerr_psf_r",
+   "wavg_magerr_psf_i",
+   "ebv_sfd98"
+  ],
+  "queries": [
+   "SELECT coadd_object_id, ra, dec, wavg_mag_psf_g, wavg_mag_psf_r, wavg_mag_psf_i, wavg_magerr_psf_g, wavg_magerr_psf_r, wavg_magerr_psf_i, ebv_sfd98 FROM des_dr2.main WHERE q3c_radial_query(ra, dec, 53.9203, -54.0513, 2.0) AND extended_class_coadd BETWEEN 0 AND 1 AND wavg_mag_psf_g < 24 AND wavg_mag_psf_r < 24"
+  ]
+ },
  "segue1_coverage": {
   "rows": 792,
   "bytes": 3466,
@@ -610,6 +858,113 @@
   ],
   "queries": [
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 151.7504, 16.0756, 1.5) AND mode = 1 AND type = 6 AND psfmag_g < 23"
+  ]
+ },
+ "tuc3_des": {
+  "rows": 1022880,
+  "bytes": 29652239,
+  "sha256": "c7d589431a581a5acb2e13c181ce590d41461cd82b93d003fe91a60e87e52f72",
+  "created_utc": "2026-10-29T12:27:07+00:00",
+  "columns": [
+   "coadd_object_id",
+   "ra",
+   "dec",
+   "wavg_mag_psf_g",
+   "wavg_mag_psf_r",
+   "wavg_mag_psf_i",
+   "wavg_magerr_psf_g",
+   "wavg_magerr_psf_r",
+   "wavg_magerr_psf_i",
+   "ebv_sfd98"
+  ],
+  "queries": [
+   "SELECT coadd_object_id, ra, dec, wavg_mag_psf_g, wavg_mag_psf_r, wavg_mag_psf_i, wavg_magerr_psf_g, wavg_magerr_psf_r, wavg_magerr_psf_i, ebv_sfd98 FROM des_dr2.main WHERE q3c_radial_query(ra, dec, 359.1075, -59.5833, 4.5) AND extended_class_coadd BETWEEN 0 AND 1 AND wavg_mag_psf_g < 24 AND wavg_mag_psf_g - wavg_mag_psf_r BETWEEN -0.3 AND 1.0"
+  ]
+ },
+ "virgo1_hsc": {
+  "rows": 12126,
+  "bytes": 584866,
+  "sha256": "ae53f33cf53de295ef054e9037b57306c4114fd56b1d24aa07ecdd55929e0d60",
+  "created_utc": "2026-10-29T12:27:34+00:00",
+  "columns": [
+   "object_id",
+   "ra",
+   "dec",
+   "g_psfflux_mag",
+   "r_psfflux_mag",
+   "i_psfflux_mag",
+   "g_psfflux_magerr",
+   "r_psfflux_magerr"
+  ],
+  "queries": [
+   "SELECT object_id, ra, dec, g_psfflux_mag, r_psfflux_mag, i_psfflux_mag, g_psfflux_magerr, r_psfflux_magerr FROM hsc_dr3.wide_summary_small WHERE q3c_radial_query(ra, dec, 180.038, -0.681, 0.75) AND i_extendedness_value = 0 AND g_psfflux_mag < 25.5"
+  ]
+ },
+ "virgo1_ls": {
+  "rows": 28537,
+  "bytes": 1798715,
+  "sha256": "2281df8567eb6ba6427e57b3301e692a222a5be7e92297e7205b6af6e6f6dfe6",
+  "created_utc": "2026-10-29T12:27:30+00:00",
+  "columns": [
+   "release",
+   "brickid",
+   "objid",
+   "ra",
+   "dec",
+   "flux_g",
+   "flux_r",
+   "flux_z",
+   "flux_ivar_g",
+   "flux_ivar_r",
+   "mw_transmission_g",
+   "mw_transmission_r",
+   "ebv"
+  ],
+  "queries": [
+   "SELECT release, brickid, objid, ra, dec, flux_g, flux_r, flux_z, flux_ivar_g, flux_ivar_r, mw_transmission_g, mw_transmission_r, ebv FROM decals_dr9.main WHERE q3c_radial_query(ra, dec, 180.038, -0.681, 0.75) AND ((release = 9011 AND dec > 32.375) OR (release != 9011 AND dec < 32.375)) AND type = 'PSF' AND flux_g > 0 AND flux_r > 0 AND 22.5 - 2.5 * log(flux_g) < 24.5"
+  ]
+ },
+ "virgo1_ps1": {
+  "rows": 13534,
+  "bytes": 766666,
+  "sha256": "3582dd71e7e74915af58e6549b70a292aba72c97a3481a0baa506be1978b1dd5",
+  "created_utc": "2026-10-29T12:27:26+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "gpsfmag",
+   "rpsfmag",
+   "ipsfmag",
+   "gpsfmagerr",
+   "rpsfmagerr",
+   "ebv"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, gpsfmag, rpsfmag, ipsfmag, gpsfmagerr, rpsfmagerr, ebv FROM panstarrs_dr1.stackobjectthin WHERE q3c_radial_query(ra, dec, 180.038, -0.681, 0.75) AND primarydetection = 1 AND rpsfmag > 0 AND rkronmag > 0 AND rpsfmag - rkronmag < 0.05 AND gpsfmag BETWEEN 0 AND 23.5"
+  ]
+ },
+ "virgo1_sdss": {
+  "rows": 8760,
+  "bytes": 602572,
+  "sha256": "361e7e91e418a2b5eff689f419f6fb8f2d698f9f90b7ed94b9d8c5ce9f93036a",
+  "created_utc": "2026-10-29T12:27:24+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "psfmag_g",
+   "psfmag_r",
+   "psfmag_i",
+   "psfmagerr_g",
+   "psfmagerr_r",
+   "psfmagerr_i",
+   "extinction_g",
+   "extinction_r",
+   "extinction_i"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 180.038, -0.681, 0.75) AND mode = 1 AND type = 6 AND psfmag_g < 23"
   ]
  },
  "willman1_coverage": {

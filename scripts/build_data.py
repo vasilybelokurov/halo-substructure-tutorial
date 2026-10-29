@@ -85,6 +85,40 @@ QUERIES = {
                            WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99
                            ORDER BY logage, feh, m_ini"""],
 }
+
+# v0.2: southern satellites in DES DR2 (Chapter 11) and the survey ladder (Chapter 12).
+# DES DR2 point sources: extended_class_coadd 0 or 1 (high-confidence and likely stars).
+CONES.update({"retii": (53.9203, -54.0513, 2.0), "tuc3": (359.1075, -59.5833, 4.5),
+              "leo4": (173.2405, -0.5453, 0.75), "virgo1": (180.0380, -0.6810, 0.75), "bootes4": (233.6890, 43.7260, 0.75)})
+DES = """coadd_object_id, ra, dec, wavg_mag_psf_g, wavg_mag_psf_r, wavg_mag_psf_i, wavg_magerr_psf_g,
+         wavg_magerr_psf_r, wavg_magerr_psf_i, ebv_sfd98"""
+QUERIES.update({
+    "retii_des": [f"""SELECT {DES} FROM des_dr2.main WHERE {cone('retii')} AND extended_class_coadd BETWEEN 0 AND 1
+                      AND wavg_mag_psf_g < 24 AND wavg_mag_psf_r < 24"""],
+    "tuc3_des": [f"""SELECT {DES} FROM des_dr2.main WHERE {cone('tuc3')} AND extended_class_coadd BETWEEN 0 AND 1
+                     AND wavg_mag_psf_g < 24 AND wavg_mag_psf_g - wavg_mag_psf_r BETWEEN -0.3 AND 1.0"""],
+    "isochrones_des": ["""SELECT logage, feh, m_ini, int_imf, stage, g, r, i, z
+                          FROM isochrones.girardi_des_ugrizy_1601
+                          WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99
+                          ORDER BY logage, feh, m_ini"""],
+    "isochrones_ps1": ["""SELECT logage, feh, m_ini, int_imf, stage, g, r, i, z
+                          FROM isochrones.girardi_panstarrs_grizy_1701
+                          WHERE logage BETWEEN 9.89 AND 10.11 AND feh BETWEEN -2.11 AND -0.99
+                          ORDER BY logage, feh, m_ini"""],
+})
+# The ladder: point sources by each survey's own classifier, to each survey's depth.
+for n in ("leo4", "virgo1", "bootes4"):
+    QUERIES[f"{n}_sdss"] = [sdss_points(cone(n))]
+    QUERIES[f"{n}_ps1"] = [f"""SELECT objid, ra, dec, gpsfmag, rpsfmag, ipsfmag, gpsfmagerr, rpsfmagerr, ebv
+                               FROM panstarrs_dr1.stackobjectthin WHERE {cone(n)} AND primarydetection = 1
+                               AND rpsfmag > 0 AND rkronmag > 0 AND rpsfmag - rkronmag < 0.05 AND gpsfmag BETWEEN 0 AND 23.5"""]
+    QUERIES[f"{n}_ls"] = [f"""SELECT release, brickid, objid, ra, dec, flux_g, flux_r, flux_z, flux_ivar_g, flux_ivar_r,
+                              mw_transmission_g, mw_transmission_r, ebv FROM decals_dr9.main
+                              WHERE {cone(n)} AND {LS_DEDUP} AND type = 'PSF' AND flux_g > 0 AND flux_r > 0
+                              AND 22.5 - 2.5 * log(flux_g) < 24.5"""]
+    QUERIES[f"{n}_hsc"] = [f"""SELECT object_id, ra, dec, g_psfflux_mag, r_psfflux_mag, i_psfflux_mag, g_psfflux_magerr,
+                               r_psfflux_magerr FROM hsc_dr3.wide_summary_small WHERE {cone(n)}
+                               AND i_extendedness_value = 0 AND g_psfflux_mag < 25.5"""]
 # Coverage of each SDSS file: counts of all primary objects (any type, r < 22) in 0.1 x 0.1 deg cells.
 COVERAGE = "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag " \
            "WHERE {where} AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"

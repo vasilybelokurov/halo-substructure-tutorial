@@ -11,3 +11,4 @@ chapters:
   - file: notebooks/07_pal5_stream
   - file: notebooks/08_injection_recovery
   - file: notebooks/09_blind_search
+  - file: notebooks/10_gaia_allsky
