@@ -464,6 +464,40 @@
    "SELECT 10 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 22.0605, -23.7655, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21"
   ]
  },
+ "gaia_dr3_ch10_cands2": {
+  "rows": 139381,
+  "bytes": 9772488,
+  "sha256": "1bcd8b30ce389b2fca9b273495948ad61d7241e1142a518330698c26404b68fb",
+  "created_utc": "2026-10-29T19:41:59+00:00",
+  "columns": [
+   "cand",
+   "source_id",
+   "ra",
+   "dec",
+   "phot_g_mean_mag",
+   "bp_rp",
+   "parallax",
+   "parallax_error",
+   "pmra",
+   "pmra_error",
+   "pmdec",
+   "pmdec_error",
+   "astrometric_excess_noise"
+  ],
+  "queries": [
+   "SELECT 0 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 187.6904, 12.4064, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 1 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 187.6465, 41.6604, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 2 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 40.6494, 0.0, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 3 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 190.6787, 2.6867, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 4 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 159.6756, 53.476, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 5 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 54.5801, -35.456, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 6 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 51.8115, 30.6049, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 7 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 189.0088, 27.9532, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 8 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 10.1074, 40.5711, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 9 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 143.3936, 2.4627, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 10 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 134.165, 14.1695, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21"
+  ]
+ },
  "gaia_dr3_counts": {
   "rows": 12579897,
   "bytes": 75830190,
@@ -477,6 +511,22 @@
   ],
   "queries": [
    "SELECT source_id / 549755813888 AS hpx, count(*) AS n_k17, count(*) FILTER (WHERE NOT COALESCE(parallax - 3 * parallax_error > 1, false)) AS n_far, count(*) FILTER (WHERE NOT COALESCE(parallax - 3 * parallax_error > 1, false) AND bp_rp BETWEEN 0.3 AND 1.3) AS n_far_cmd FROM gaia_dr3.gaia_source WHERE source_id >= {lo} AND source_id < {hi} AND phot_g_mean_mag BETWEEN 17 AND 21 AND astrometric_excess_noise < power(10, 0.15 * (phot_g_mean_mag - 15) + 0.25) GROUP BY 1 -- for lo = k * 2**51, hi = lo + 2**51, k = 0..3071"
+  ]
+ },
+ "gaia_dr3_counts_plxcut": {
+  "rows": 12579897,
+  "bytes": 81808880,
+  "sha256": "c3c33fbcc65e30254a3babed467f9f66942c79c73384cb10a2ef0f1090e88162",
+  "created_utc": "2026-10-29T19:38:20+00:00",
+  "columns": [
+   "hpx",
+   "n_plx1",
+   "n_plx1_cmd",
+   "n_plx02",
+   "n_plx02_cmd"
+  ],
+  "queries": [
+   "SELECT source_id / 549755813888 AS hpx, count(*) FILTER (WHERE COALESCE(parallax <= 1, true)) AS n_plx1, count(*) FILTER (WHERE COALESCE(parallax <= 1, true) AND bp_rp BETWEEN 0.3 AND 1.3) AS n_plx1_cmd, count(*) FILTER (WHERE COALESCE(parallax <= 0.2, true)) AS n_plx02, count(*) FILTER (WHERE COALESCE(parallax <= 0.2, true) AND bp_rp BETWEEN 0.3 AND 1.3) AS n_plx02_cmd FROM gaia_dr3.gaia_source WHERE source_id >= {lo} AND source_id < {hi} AND phot_g_mean_mag BETWEEN 17 AND 21 AND astrometric_excess_noise < power(10, 0.15 * (phot_g_mean_mag - 15) + 0.25) GROUP BY 1 -- for lo = k * 2**51, hi = lo + 2**51, k = 0..3071"
   ]
  },
  "holdout_coverage": {

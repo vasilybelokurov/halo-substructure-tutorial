@@ -136,17 +136,29 @@ QUERIES["holdout_sdss_galaxies"] = [f"SELECT {SDSS_GAL} FROM sdssdr9.phototag WH
                                     f"AND cmodelmag_r < 21" for t in box_tiles("holdout")]
 QUERIES["willman1_sdss_galaxies"] = [f"SELECT {SDSS_GAL} FROM sdssdr9.phototag WHERE {cone('willman1')} AND mode = 1 "
                                      f"AND type = 3 AND cmodelmag_r < 21"]
-# Chapter 10 report cards: Gaia DR3 sources (17 < G < 21, no excess-noise cut) within 1 deg of the 11 detections of the
-# DR3 far + colour map (S > 6, |b| > 20 deg, outside the Clouds) that match no LVDB object; positions as found by the
-# notebook (peak pixel of each connected S > 6 region), in decreasing S. cand: index into this list.
-CH10_CANDS = [(187.6904, 12.4064), (187.6465, 41.6604), (190.6787, 2.6867), (40.6494, 0.0000), (159.6756, 53.4760),
-              (54.5801, -35.4560), (189.0088, 27.9532), (51.8115, 30.6049), (10.1074, 40.5711), (184.7021, 14.4005),
-              (22.0605, -23.7655)]
-QUERIES["gaia_dr3_ch10_cands"] = [
-    f"""SELECT {k} AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec,
-               pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source
-        WHERE q3c_radial_query(ra, dec, {a}, {d}, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21"""
-    for k, (a, d) in enumerate(CH10_CANDS)]
+# Chapter 10 report cards: Gaia DR3 sources (17 < G < 21, no excess-noise cut) within 1 deg of each detection (S > 6,
+# |b| > 20 deg, outside the Clouds) that matches no LVDB object; positions as found by the notebook (peak pixel of each
+# connected S > 6 region), in decreasing S; cand: index into the list.
+CARD_COLS = """source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error,
+               astrometric_excess_noise"""
+
+
+def card_queries(cands):
+    return [f"""SELECT {k} AS cand, {CARD_COLS} FROM gaia_dr3.gaia_source
+                WHERE q3c_radial_query(ra, dec, {a}, {d}, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21"""
+            for k, (a, d) in enumerate(cands)]
+
+
+# superseded (detections on the n_far_cmd map, which used parallax errors); the file stays published
+QUERIES["gaia_dr3_ch10_cands"] = card_queries([
+    (187.6904, 12.4064), (187.6465, 41.6604), (190.6787, 2.6867), (40.6494, 0.0000), (159.6756, 53.4760),
+    (54.5801, -35.4560), (189.0088, 27.9532), (51.8115, 30.6049), (10.1074, 40.5711), (184.7021, 14.4005),
+    (22.0605, -23.7655)])
+CH10_CANDS2 = [(187.6904, 12.4064), (187.6465, 41.6604), (40.6494, 0.0000), (190.6787, 2.6867), (159.6756, 53.4760),
+               (54.5801, -35.4560), (51.8115, 30.6049), (189.0088, 27.9532), (10.1074, 40.5711), (143.3936, 2.4627),
+               (134.1650, 14.1695)]
+# current: detections on the n_plx1_cmd map (parallax <= 1 mas or no parallax, 0.3 < BP-RP < 1.3)
+QUERIES["gaia_dr3_ch10_cands2"] = card_queries(CH10_CANDS2)
 # Coverage of each SDSS file: counts of all primary objects (any type, r < 22) in 0.1 x 0.1 deg cells.
 COVERAGE = "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag " \
            "WHERE {where} AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
@@ -231,10 +243,13 @@ GAIA_COUNTS = {
     "gaia_dr3_counts": ("gaia_dr3.gaia_source",
                         f"count(*) AS n_k17, count(*) FILTER (WHERE NOT {NEAR}) AS n_far, "
                         f"count(*) FILTER (WHERE NOT {NEAR} AND bp_rp BETWEEN 0.3 AND 1.3) AS n_far_cmd"),
-    # a plain parallax cut, parallax < 0.2 mas (stars without a parallax are dropped), alone and with the colour cut
-    "gaia_dr3_counts_plx": ("gaia_dr3.gaia_source",
-                            "count(*) FILTER (WHERE parallax < 0.2) AS n_plx, "
-                            "count(*) FILTER (WHERE parallax < 0.2 AND bp_rp BETWEEN 0.3 AND 1.3) AS n_plx_cmd"),
+    # plain parallax cuts (errors not used): drop stars with parallax > 1 mas, or > 0.2 mas; stars without a parallax
+    # are kept (COALESCE). Each alone and with 0.3 < BP-RP < 1.3. These replace n_far, n_far_cmd in Chapter 10.
+    "gaia_dr3_counts_plxcut": ("gaia_dr3.gaia_source",
+                               "count(*) FILTER (WHERE COALESCE(parallax <= 1, true)) AS n_plx1, "
+                               "count(*) FILTER (WHERE COALESCE(parallax <= 1, true) AND bp_rp BETWEEN 0.3 AND 1.3) AS n_plx1_cmd, "
+                               "count(*) FILTER (WHERE COALESCE(parallax <= 0.2, true)) AS n_plx02, "
+                               "count(*) FILTER (WHERE COALESCE(parallax <= 0.2, true) AND bp_rp BETWEEN 0.3 AND 1.3) AS n_plx02_cmd"),
 }
 
 

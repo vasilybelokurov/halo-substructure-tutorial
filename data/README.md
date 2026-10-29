@@ -36,6 +36,9 @@ Floating-point columns are float32 except `ra` and `dec`.
 | `lvdb` | rows of the Local Volume Database v1.1.1 (Pace 2025) for the objects used in Chapters 0–12 |
 | `lvdb_mw` | all Milky Way satellites and star clusters of LVDB v1.1.1 (`host = mw`): key, name, position, distance modulus, r_h, M_V, classification |
 | `lvdb_pm` | the LVDB v1.1.1 rows (all columns, including proper motions) for Boötes I and Crater 2 |
+| `gaia_dr3_counts_plxcut` | all-sky DR3 counts (same grid and K17 selection) without stars of parallax > 1 mas (`n_plx1`) or > 0.2 mas (`n_plx02`), stars without a parallax kept; `_cmd`: also 0.3 < BP − RP < 1.3 |
+| `gaia_dr3_ch10_cands2` | Gaia DR3 sources, 17 < G < 21 (no excess-noise cut), within 1° of the 11 unmatched Chapter 10 detections (`cand`: detection index); `gaia_dr3_ch10_cands` is a superseded version for an earlier detection map |
+| `lvdb_all` | all 1727 objects of LVDB v1.1.1: key, name, host, table, position, distance modulus, r_h, M_V |
 | `gaia_dr1_counts`, `gaia_dr3_counts` | all-sky Gaia star counts on a HEALPix nside = 1024 nested grid (selection in `scripts/build_data.py`) |
 
 Survey-specific columns: SDSS `psfmag_*`, `psfmagerr_*`, `cmodelmag_*`, `extinction_*` (SFD98 × SDSS coefficients), `type`;
