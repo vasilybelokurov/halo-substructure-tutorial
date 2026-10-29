@@ -22,6 +22,7 @@ Floating-point columns are float32 except `ra` and `dec`.
 |---|---|
 | `bootes1_sdss`, `willman1_sdss`, `segue1_sdss` | SDSS DR9 primary point sources (`mode = 1`, `type = 6`), g < 23, within 2° / 1.5° / 1.5° of Boötes I / Willman 1 / Segue 1 |
 | `pal5_sdss`, `holdout_sdss` | SDSS DR9 point sources with −0.3 < g − r < 1.2, g < 22.5, in RA 222°–244°, Dec −8°…+8° (Pal 5) and RA 165°–181°, Dec −3°…+8° |
+| `holdout_sdss_galaxies`, `willman1_sdss_galaxies` | SDSS DR9 primary galaxies (`type = 3`), cModel r < 21 (`cmodelmag_r`, `extinction_r`), in the holdout box and within 1.5° of Willman 1: the galaxy maps of the Chapter 9 report cards |
 | `*_coverage` | counts of all SDSS primary objects (any type, r < 22) in 0.1° × 0.1° cells (`ira = floor(ra/0.1)`, `idec = floor(dec/0.1)`): where SDSS observed |
 | `a370_{sdss,ps1,ls,hsc}` | all sources within 0.33° of the galaxy cluster Abell 370, with each survey's star–galaxy information |
 | `cosmos_{sdss,ps1,ls,hsc}` | the same within 0.6° of the COSMOS field centre (150.12°, 2.21°) |

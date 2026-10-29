@@ -430,6 +430,40 @@
    "SELECT source_id / 549755813888 AS hpx, count(*) AS n_k17 FROM gaia_dr1.gaia_source WHERE source_id >= {lo} AND source_id < {hi} AND phot_g_mean_mag BETWEEN 17 AND 21 AND astrometric_excess_noise < power(10, 0.15 * (phot_g_mean_mag - 15) + 0.25) GROUP BY 1 -- for lo = k * 2**51, hi = lo + 2**51, k = 0..3071"
   ]
  },
+ "gaia_dr3_ch10_cands": {
+  "rows": 130216,
+  "bytes": 9174521,
+  "sha256": "8a23f7b077014be31275573a0abd2cee08b38b8518807f1e7e074f75bd59b810",
+  "created_utc": "2026-10-29T16:15:44+00:00",
+  "columns": [
+   "cand",
+   "source_id",
+   "ra",
+   "dec",
+   "phot_g_mean_mag",
+   "bp_rp",
+   "parallax",
+   "parallax_error",
+   "pmra",
+   "pmra_error",
+   "pmdec",
+   "pmdec_error",
+   "astrometric_excess_noise"
+  ],
+  "queries": [
+   "SELECT 0 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 187.6904, 12.4064, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 1 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 187.6465, 41.6604, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 2 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 190.6787, 2.6867, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 3 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 40.6494, 0.0, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 4 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 159.6756, 53.476, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 5 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 54.5801, -35.456, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 6 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 189.0088, 27.9532, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 7 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 51.8115, 30.6049, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 8 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 10.1074, 40.5711, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 9 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 184.7021, 14.4005, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21",
+   "SELECT 10 AS cand, source_id, ra, dec, phot_g_mean_mag, bp_rp, parallax, parallax_error, pmra, pmra_error, pmdec, pmdec_error, astrometric_excess_noise FROM gaia_dr3.gaia_source WHERE q3c_radial_query(ra, dec, 22.0605, -23.7655, 1.0) AND phot_g_mean_mag BETWEEN 17 AND 21"
+  ]
+ },
  "gaia_dr3_counts": {
   "rows": 12579897,
   "bytes": 75830190,
@@ -494,6 +528,29 @@
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[175.0, -3.0, 177.0, -3.0, 177.0, 8.0, 175.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[177.0, -3.0, 179.0, -3.0, 179.0, 8.0, 177.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5",
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[179.0, -3.0, 181.0, -3.0, 181.0, 8.0, 179.0, 8.0]) AND mode = 1 AND type = 6 AND psfmag_g < 23 AND psfmag_g - psfmag_r BETWEEN -0.3 AND 1.2 AND psfmag_g < 22.5"
+  ]
+ },
+ "holdout_sdss_galaxies": {
+  "rows": 643262,
+  "bytes": 16530465,
+  "sha256": "f0fee1c0e0186e00b8e8f6a212c90a8401e6ec4cc788b8deed533369e938e26c",
+  "created_utc": "2026-10-29T15:44:01+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "cmodelmag_r",
+   "extinction_r"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[165.0, -3.0, 167.0, -3.0, 167.0, 8.0, 165.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[167.0, -3.0, 169.0, -3.0, 169.0, 8.0, 167.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[169.0, -3.0, 171.0, -3.0, 171.0, 8.0, 169.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[171.0, -3.0, 173.0, -3.0, 173.0, 8.0, 171.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[173.0, -3.0, 175.0, -3.0, 175.0, 8.0, 173.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[175.0, -3.0, 177.0, -3.0, 177.0, 8.0, 175.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[177.0, -3.0, 179.0, -3.0, 179.0, 8.0, 177.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21",
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_poly_query(ra, dec, ARRAY[179.0, -3.0, 181.0, -3.0, 181.0, 8.0, 179.0, 8.0]) AND mode = 1 AND type = 3 AND cmodelmag_r < 21"
   ]
  },
  "isochrones_des": {
@@ -792,6 +849,26 @@
   ],
   "queries": [
    "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv"
+  ]
+ },
+ "lvdb_all": {
+  "rows": 1727,
+  "bytes": 66175,
+  "sha256": "0874217c421083adecec2bab0bcd0ff9a2fbbf034032538f25b10887982ceba5",
+  "created_utc": "2026-10-29T16:11:54+00:00",
+  "columns": [
+   "key",
+   "name",
+   "host",
+   "table",
+   "ra",
+   "dec",
+   "distance_modulus",
+   "rhalf",
+   "M_V"
+  ],
+  "queries": [
+   "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv (all rows)"
   ]
  },
  "lvdb_mw": {
@@ -1205,6 +1282,22 @@
   ],
   "queries": [
    "SELECT objid, ra, dec, psfmag_g, psfmag_r, psfmag_i, psfmagerr_g, psfmagerr_r, psfmagerr_i, extinction_g, extinction_r, extinction_i FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 162.3436, 51.0501, 1.5) AND mode = 1 AND type = 6 AND psfmag_g < 23"
+  ]
+ },
+ "willman1_sdss_galaxies": {
+  "rows": 24177,
+  "bytes": 772483,
+  "sha256": "cd734201c5e61b0240d3484454f74b8ce78360b0101ead0cafea59634039d735",
+  "created_utc": "2026-10-29T15:44:02+00:00",
+  "columns": [
+   "objid",
+   "ra",
+   "dec",
+   "cmodelmag_r",
+   "extinction_r"
+  ],
+  "queries": [
+   "SELECT objid, ra, dec, cmodelmag_r, extinction_r FROM sdssdr9.phototag WHERE q3c_radial_query(ra, dec, 162.3436, 51.0501, 1.5) AND mode = 1 AND type = 3 AND cmodelmag_r < 21"
   ]
  }
 }
