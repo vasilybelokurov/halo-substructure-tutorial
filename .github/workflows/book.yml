@@ -31,7 +31,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: notebooks/data
-          key: data-v0.1-b
+          key: data-${{ hashFiles('data/MANIFEST.json') }}   # a new or rebuilt file changes the manifest, hence the key
       - name: Tests and notebooks
         run: pytest -q tests/ --nbmake notebooks/ --nbmake-timeout=1800 --overwrite   # executed notebooks are kept for the book
       - name: Build book

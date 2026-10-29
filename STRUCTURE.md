@@ -35,8 +35,9 @@ checks phrased as tests with stated tolerances, not as "agrees with the literatu
    model source detection or deblending.
 5. **Public data as pre-extracted snippets.** Students have no WSDB access.
    `scripts/build_data.py` queries WSDB (sqlutilpy, q3c, plans checked with `EXPLAIN`) and writes
-   small parquet files plus a manifest (query, table, rows, SHA-256). The files are attached to a
-   GitHub release of this repository; notebooks download them and check the SHA-256.
+   small parquet files plus a manifest (query, table, rows, SHA-256). The files are attached to the
+   GitHub release `data-v0.1` of this repository (it holds the data of all built chapters, v0.2 included);
+   notebooks download them and check the SHA-256. Files are only added: a changed selection gets a new name.
 6. **Plot + assertion.** Every claim comes with a figure and an `assert` with a tolerance.
 7. **Least code that works.** Each notebook is self-contained (runs alone in Colab); small helpers
    are repeated rather than hidden in a package.
@@ -46,7 +47,7 @@ checks phrased as tests with stated tolerances, not as "agrees with the literatu
 | Release | Content | Status |
 |---|---|---|
 | **v0.1** | Ch 00–10: data; object- and population-level star–galaxy separation (SDSS, PS1, LS DR9, HSC vs COSMOS HST); CMDs and isochrones; matched filter; multi-scale search with null calibration; Poisson likelihood; Pal 5 stream; injection–recovery; blind holdout search; all-sky Gaia DR1/DR3 search (Koposov et al. 2017). Pipeline survey: SDSS DR9. | built 2026-10-29 |
-| v0.2 | DES DR2 (Reticulum II, Tucana III and its tails); survey ladder to HSC (Leo IV, Virgo I, Boötes IV); Gaia proper motions and membership (Boötes I, Crater 2); luminosity and dwarf/cluster classification. | planned |
+| v0.2 | DES DR2 (Reticulum II, Tucana III and its tails); survey ladder to HSC (Leo IV, Virgo I, Boötes IV); Gaia proper motions and membership (Boötes I, Crater 2); luminosity and dwarf/cluster classification. | Ch 11–13 built 2026-10-29; luminosity and classification planned |
 | v0.3 | Wide-area stream maps (SDSS "Field of Streams"); GD-1 with Gaia + PS1; star–galaxy III (three-hypothesis likelihood, H_S vs H_G calibrated on held-out clusters); colour + optical–IR classifier; injection including classification losses; DES blind survey. | planned |
 
 ## v0.1 chapters
@@ -63,10 +64,10 @@ is opened.
 | 04 | `04_matched_filter` | Box cut vs isochrone mask vs signal/background CMD weights (Rockosi+02); a variance-aware statistic S/√B measured on injections, then applied to Boötes I and Pal 5 | `bootes1_sdss`, `pal5_sdss`, `isochrones_sdss` | mean gain of weighted over box statistic > 1 with 95% interval above 1 (200 injections) |
 | 05 | `05_overdensity_search` | CMD mask (cells ranked by s/b) and Poisson counts; smoothed maps, background from a 30′ kernel, exact Poisson tail significance; several kernel sizes; distance-modulus scan; search-wide calibration of the maximum with 200 null patches. (Continuous s/b weights failed the null test: sparse high-weight stars.) | `{bootes1,willman1,segue1}_sdss` | each object is the maximum of its patch, within max(1′, 0.5 r_h) of LVDB; its statistic exceeds the 99th percentile of 200 null maxima |
 | 06 | `06_likelihood` | Unbinned likelihood: elliptical exponential satellite + uniform background (r_h ≥ 0.5′: the mixture likelihood is unbounded); TS and why √TS is not a Gaussian significance; interval coverage on 200 simulations | `bootes1_sdss`, `isochrones_sdss` | centre within 2′ and ε, PA of LVDB; r_h within 2 combined σ of Martin et al. 2008 (same SDSS data; the deeper LVDB/Muñoz+18 r_h is 30% smaller); r_h coverage in 60–76% |
-| 07 | `07_pal5_stream` | A stream as a 1-d overdensity: matched-filter map of the Pal 5 field; rotation to stream coordinates (φ1, φ2); track and width in φ1 bins from a Gaussian + background fit; comparison with the `galstreams` Pal 5 track | `pal5_sdss`, `isochrones_sdss` | rotation round trip < 1e-6 deg; tail excess > 3σ in ≥ 2 disjoint segments on each side; median \|track − galstreams\| < 0.2° |
+| 07 | `07_pal5_stream` | A stream as a 1-d overdensity: matched-filter map of the Pal 5 field; rotation to stream coordinates (φ1, φ2); track and width in φ1 bins from a Gaussian + background fit; comparison with the `galstreams` Pal 5 track | `pal5_sdss`, `isochrones_sdss` | rotation round trip < 1e-6 deg; ≥ 2 segments on each side with TS above the largest TS of the control strips at φ2 = ±3.5°; median \|track − galstreams\| < 0.2° |
 | 08 | `08_injection_recovery` | Synthetic satellites from an isochrone + IMF, with the SDSS error model and magnitude limit, injected into a real patch; recovery with the Ch 05 search; efficiency vs (M_V, distance) at r_h = 50 pc, conditional on the catalogue selection; 25 injections per cell | `segue1_sdss` (outer field), `isochrones_sdss` | efficiency > 0.9 for M_V = −6 at 50 kpc; < 0.2 for M_V = −2 at 100 kpc |
 | 09 | `09_blind_search` | The frozen pipeline run once on a held-out SDSS region (136 deg² searched); threshold from 30 null realisations; candidate reports; unblinding against LVDB and SIMBAD | `holdout_sdss` | Leo IV and Leo V recovered. Outcome: 16 candidates vs ≲ 1 expected from uniform nulls — shredded nearby galaxies (UGC 6903, UGC 6780, NGC 3664) and clustered faint galaxies; the uniform null is too optimistic |
-| 10 | `10_gaia_allsky` | All-sky HEALPix counts computed in the database (source_id → HEALPix); Koposov et al. 2017 statistic (kernel density, annulus mean and variance) via spherical harmonics; Fig. 1 reproduced with DR1; kernels 3′/6′/12′; DR3, DR3 without stars with ϖ − 3σ_ϖ > 1 mas, and with 0.3 < BP−RP < 1.3 | `gaia_dr1_counts`, `gaia_dr3_counts`, `lvdb_mw` | Gaia 2 S > 6 (3′), Gaia 1 S > 5 (6′), Crater 2 S > 5 (12′); recovery of known objects and spurious peaks per data version reported |
+| 10 | `10_gaia_allsky` | All-sky HEALPix counts computed in the database (source_id → HEALPix); Koposov et al. 2017 statistic (kernel density, annulus mean and variance) via spherical harmonics; Fig. 1 reproduced with DR1; kernels 4′/6′/12′ (3.4′ pixels); DR3, DR3 without stars with ϖ − 3σ_ϖ > 1 mas, and with 0.3 < BP−RP < 1.3 | `gaia_dr1_counts`, `gaia_dr3_counts`, `lvdb_mw` | Gaia 1 S > 6 and Gaia 2 S > 5 (4′), Crater 2 S > 5 (12′); recovery of known objects and spurious peaks per data version reported |
 
 The holdout region is RA 165°–181°, Dec −3°…+8°. Students are told what it contains only after
 running the frozen search.
@@ -82,13 +83,16 @@ notebooks subtract the extinction explicitly.
 |---|---|---|
 | `bootes1_sdss` | SDSS point sources, g < 23 | 2° radius around Boötes I |
 | `willman1_sdss`, `segue1_sdss` | as above | 1.5° radius |
-| `pal5_sdss` | SDSS point sources, −0.3 < g−r < 1.2, g < 23 | RA 222°–244°, Dec −8°…+8° |
+| `pal5_sdss` | SDSS point sources, −0.3 < g−r < 1.2, g < 22.5 | RA 222°–244°, Dec −8°…+8° |
 | `holdout_sdss` | as `pal5_sdss` | RA 165°–181°, Dec −3°…+8° |
 | `a370_{sdss,ps1,ls,hsc}` | all sources with classifier columns | 0.33° radius around Abell 370 |
 | `cosmos_hst` | COSMOS ACS: ra, dec, mag_auto (F814W), `mu_class`, `flux_radius` | 0.6° radius |
 | `cosmos_{sdss,ps1,ls,hsc}` | all sources with classifier columns | 0.6° radius |
 | `isochrones_sdss` | PARSEC 1.2S, SDSS ugriz: log age 9.9–10.1, [Fe/H] −2.1…−1.0 | — |
 | `lvdb` | LVDB v1.1.1 (CC0) rows used as references | — |
+
+v0.2 adds `retii_des`, `tuc3_des` (DES DR2), `{leo4,virgo1,bootes4}_{sdss,ps1,ls,hsc}`,
+`{bootes1,crater2}_gaia` (Gaia DR3 astrometry), `isochrones_{des,ps1,gaia}`, `lvdb_mw` and `lvdb_pm`; see `data/README.md`.
 
 Every file is listed in `data/MANIFEST.json` (query text, WSDB table, rows, SHA-256, UTC time).
 Licences and acknowledgements are listed per product in `data/README.md`.
@@ -100,11 +104,11 @@ Licences and acknowledgements are listed per product in `data/README.md`.
 | 11 | Southern satellites in DES DR2: Reticulum II, Tucana III and its tails — **built** | DES DR2 | Ret II r_h, ε, PA vs LVDB (Mutlu-Pakdil+18); Tuc III tail PA within 10° of Shipp+19 track; both tails > 3σ (measured 10σ) |
 | 12 | Faint and deep: the survey ladder (Leo IV, Virgo I, Boötes IV in SDSS, PS1, LS, HSC) — **built** | all | each survey against its own null; HSC recovers Virgo I and Boötes IV, SDSS misses Virgo I; NGC 4030 shredded-galaxy peak noted |
 | 13 | Gaia proper motions and membership (Pace & Li 19): Boötes I, Crater 2 — **built** | Gaia DR3 | systemic PM within the 99% ellipse of LVDB (Pace+22) incl. 0.025 mas/yr systematic floor (Vasiliev & Baumgardt 21); measured χ² 0.05 (Boötes I) |
-| 13 | Luminosity and classification | — | M_V posterior coverage on stochastic simulations |
-| 14 | Wide-area stream maps | SDSS HEALPix count maps | excess in two disjoint segments vs control strips |
-| 15 | GD-1 with Gaia + PS1 | Gaia DR3, PS1 | independently fitted track vs `galstreams` on held-out bins |
-| 16 | Star–galaxy III: a three-hypothesis likelihood | redMaPPer clusters, satellites | classification tested on held-out clusters and satellites |
-| 17 | Injection with classification losses; DES blind survey | DES DR2 | ≥ 1000 simulated null regions; zero exceedances reported as ≤ 3/N |
+| 14 | Luminosity and classification | — | M_V posterior coverage on stochastic simulations |
+| 15 | Wide-area stream maps | SDSS HEALPix count maps | excess in two disjoint segments vs control strips |
+| 16 | GD-1 with Gaia + PS1 | Gaia DR3, PS1 | independently fitted track vs `galstreams` on held-out bins |
+| 17 | Star–galaxy III: a three-hypothesis likelihood | redMaPPer clusters, satellites | classification tested on held-out clusters and satellites |
+| 18 | Injection with classification losses; DES blind survey | DES DR2 | ≥ 1000 simulated null regions; zero exceedances reported as ≤ 3/N |
 
 ## Repository layout
 
@@ -115,6 +119,7 @@ data/           README.md (licences, columns) and MANIFEST.json; parquet files a
 tests/          pytest tests
 prototypes/     exploratory scripts (not part of the book)
 _config.yml, _toc.yml, intro.md   Jupyter Book
+_static/custom.css                page layout (as in the dynamics tutorial): no top bar, narrow sidebars, orange comments
 .github/workflows/book.yml        tests, executes notebooks, publishes to GitHub Pages
 ```
 

@@ -19,7 +19,7 @@ proprietary releases.
 
 - Chapters are `notebooks/NN_<slug>.ipynb`, committed without outputs; each runs standalone in Colab.
 - Students have no WSDB access: `scripts/build_data.py` queries WSDB (sqlutilpy, q3c, plan checked
-  with `EXPLAIN`) and writes the parquet files that notebooks download (with an MD5 check).
+  with `EXPLAIN`) and writes the parquet files that notebooks download (with a SHA-256 check against `data/MANIFEST.json`).
 - Each notebook backs every claim with a plot and an `assert` against a known result
   (e.g. a published satellite position, distance, or stream track).
 - Before pushing: `pytest tests/ --nbmake notebooks/`.

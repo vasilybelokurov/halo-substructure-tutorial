@@ -15,6 +15,8 @@ def test_manifest_entries_complete():
 
 
 def test_files_used_by_notebooks_are_in_manifest():
+    """Names passed as string literals, load('name'), must be in the manifest. Names built at run time
+    (e.g. load(f'{obj}_{survey}') in Chapter 12) are not seen here; they are checked when the notebooks run."""
     nb = Path(__file__).resolve().parent.parent / "notebooks"
     used = set()
     for p in nb.glob("*.ipynb"):
