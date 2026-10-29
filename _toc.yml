@@ -7,3 +7,5 @@ chapters:
   - file: notebooks/03_star_galaxy_populations
   - file: notebooks/04_matched_filter
   - file: notebooks/05_overdensity_search
+  - file: notebooks/06_likelihood
+  - file: notebooks/07_pal5_stream

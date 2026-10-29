@@ -15,9 +15,10 @@ files it needs, and backs every claim with a figure and an explicit numerical ch
 3. Is an overdensity made of stars? (Abell 370 vs Boötes I)
 4. The matched filter (Boötes I and the tails of Pal 5)
 5. Searching for overdensities, and calibrating the search with null patches
+6. An unbinned likelihood: the structure of Boötes I
+7. A stellar stream: the tidal tails of Pal 5
 
-More chapters — likelihood fits, the Pal 5 stream,
-injection–recovery, a blind search and an all-sky Gaia search — are being added; see `STRUCTURE.md` in the
+More chapters — injection–recovery, a blind search and an all-sky Gaia search — are being added; see `STRUCTURE.md` in the
 repository.
 
 **Prerequisites.** Basic Python (numpy, matplotlib) and elementary astronomy (magnitudes, colours).
