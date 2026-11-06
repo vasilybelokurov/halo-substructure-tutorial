@@ -5,7 +5,9 @@
 A Python tutorial, in Jupyter notebooks published from a public git repo, on detecting
 substructure in the Milky Way halo in large survey data: (1) intact satellites, however
 faint; (2) disrupted satellites (streams and other debris). Data come from WSDB
-(Whole Sky Database) and are shipped to students as pre-extracted files. **Public data only**
+(Whole Sky Database) and are shipped to students as pre-extracted files; the one exception is the Local Volume
+Database, read by `load_lvdb()` from its GitHub release (pinned version, SHA-256 checked). Values the text attributes
+to a paper are typed into the notebook with the citation, not read from LVDB. **Public data only**
 (SDSS, PS1, Legacy Surveys DR9, DES DR2, HSC PDR3, Gaia DR3); no DELVE DR3, DES Y6 or other
 proprietary releases.
 

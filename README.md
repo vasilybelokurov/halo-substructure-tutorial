@@ -17,6 +17,9 @@ Each notebook downloads the small data files it needs from this repository's
 [`data-v0.1` release](https://github.com/vasilybelokurov/halo-substructure-tutorial/releases/tag/data-v0.1)
 and checks their SHA-256 checksums. The release name is historical: it holds the data of every chapter built so far.
 Files are only ever added to it; a changed selection gets a new file name, so a published checksum never changes.
+The one exception is the Local Volume Database of known objects, which every notebook downloads from its own
+[GitHub release](https://github.com/apace7/local_volume_database/releases), pinned to v1.1.2 and checksum-checked
+(see Chapter 0).
 
 ## Run locally
 

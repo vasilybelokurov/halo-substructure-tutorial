@@ -29,4 +29,5 @@ Later chapters are planned in `STRUCTURE.md` in the repository.
 **Prerequisites.** Basic Python (numpy, matplotlib) and elementary astronomy (magnitudes, colours).
 
 **Data.** Public survey catalogues, extracted from the WSDB database in Cambridge with q3c
-(Koposov & Bartunov 2006). See `data/README.md` for sources and licences.
+(Koposov & Bartunov 2006), and the Local Volume Database of known satellites and star clusters (Pace 2025), read
+from its own release (Chapter 0). See `data/README.md` for sources and licences.
