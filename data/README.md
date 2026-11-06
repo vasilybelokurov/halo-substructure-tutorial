@@ -41,9 +41,12 @@ Floating-point columns are float32 except `ra` and `dec`.
 | `lvdb_all` | all 1727 objects of LVDB v1.1.1: key, name, host, table, position, distance modulus, r_h, M_V. No longer read by the notebooks, which call `load_lvdb()` (see below); kept because release files are never removed. |
 | `gaia_dr1_counts`, `gaia_dr3_counts` | all-sky Gaia star counts on a HEALPix nside = 1024 nested grid (selection in `scripts/build_data.py`) |
 
-The Local Volume Database itself is not in the release: every notebook reads `comb_all.csv` of LVDB v1.1.1 directly from
-https://github.com/apace7/local_volume_database/releases/tag/v1.1.1 with `load_lvdb()`, which checks its SHA-256
-(`7d2f2316…`) and turns the 16 `-inf` values of `mass_dynamical_wolf` into NaN; missing values are already NaN.
+The Local Volume Database itself is not in the release: every notebook reads `comb_all.csv` of LVDB v1.1.2 directly from
+https://github.com/apace7/local_volume_database/releases/tag/v1.1.2 with `load_lvdb()`, which checks its SHA-256
+(`6a9e03ba…`) and turns any infinite value into NaN (v1.1.1 had 16 `-inf` in `mass_dynamical_wolf`; v1.1.2 has none);
+missing values are already NaN. Values the text attributes to a paper are not taken from LVDB but fixed in the
+notebooks: Boötes I structure (Muñoz et al. 2018), Reticulum II structure (Mutlu-Pakdil et al. 2018) and the systemic
+proper motions of Boötes I and Crater 2 (Pace et al. 2022).
 
 Survey-specific columns: SDSS `psfmag_*`, `psfmagerr_*`, `cmodelmag_*`, `extinction_*` (SFD98 × SDSS coefficients), `type`;
 PS1 stack `*psfmag`, `*kronmag`, `ebv`, and `ps_score` (Tachibana & Miller 2018); Legacy Surveys DR9 Tractor `type`,
