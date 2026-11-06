@@ -13,9 +13,7 @@ import hashlib
 import json
 import sys
 import time
-import urllib.request
 from datetime import datetime, timezone
-from io import StringIO
 from pathlib import Path
 
 import numpy as np
@@ -162,8 +160,6 @@ QUERIES["gaia_dr3_ch10_cands2"] = card_queries(CH10_CANDS2)
 # Coverage of each SDSS file: counts of all primary objects (any type, r < 22) in 0.1 x 0.1 deg cells.
 COVERAGE = "SELECT floor(ra / 0.1)::int AS ira, floor(dec / 0.1)::int AS idec, count(*) AS n FROM sdssdr9.phototag " \
            "WHERE {where} AND mode = 1 AND psfmag_r < 22 GROUP BY 1, 2"
-LVDB_URL = "https://github.com/apace7/local_volume_database/releases/download/v1.1.1/comb_all.csv"
-LVDB_KEYS = ["bootes_1", "willman_1", "segue_1", "palomar_05", "leo_4", "leo_5", "virgo_1", "reticulum_2", "tucana_3"]
 
 
 def check_plan(q):
@@ -199,19 +195,6 @@ def build(name):
     t = time.time()
     if name in GAIA_COUNTS:
         return build_gaia_counts(name)
-    if name in ("lvdb", "lvdb_mw", "lvdb_pm", "lvdb_all"):
-        csv = urllib.request.urlopen(LVDB_URL).read().decode()
-        d = pd.read_csv(StringIO(csv))
-        if name == "lvdb":
-            return save(name, d[d.key.isin(LVDB_KEYS)].reset_index(drop=True), [LVDB_URL])
-        if name == "lvdb_pm":                                    # Chapter 13: published files are never changed in place
-            return save(name, d[d.key.isin(["bootes_1", "crater_2"])].reset_index(drop=True), [LVDB_URL])
-        if name == "lvdb_all":                                   # Chapter 10: every LVDB object, to match candidates
-            cols = ["key", "name", "host", "table", "ra", "dec", "distance_modulus", "rhalf", "M_V"]
-            return save(name, d[cols].reset_index(drop=True), [LVDB_URL + "  (all rows)"])
-        # all Milky Way satellites and star clusters (host = mw), a few columns
-        cols = ["key", "name", "ra", "dec", "distance_modulus", "rhalf", "M_V", "confirmed_galaxy", "confirmed_star_cluster", "table"]
-        return save(name, d.loc[d.host == "mw", cols].reset_index(drop=True), [LVDB_URL + "  (host == 'mw')"])
     if name.endswith("_coverage"):
         base = name.removesuffix("_coverage")
         wheres = list(box_tiles(base)) if base in BOXES else [cone(base)]
@@ -279,7 +262,7 @@ def build_gaia_counts(name, workers=4):
     partial.unlink()
 
 
-ALL = list(QUERIES) + [f"{n}_coverage" for n in ("bootes1", "willman1", "segue1", "pal5", "holdout")] + ["lvdb", "lvdb_mw", "lvdb_pm", "lvdb_all"] \
+ALL = list(QUERIES) + [f"{n}_coverage" for n in ("bootes1", "willman1", "segue1", "pal5", "holdout")] \
       + list(GAIA_COUNTS)
 
 if __name__ == "__main__":

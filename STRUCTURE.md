@@ -67,7 +67,7 @@ is opened.
 | 07 | `07_pal5_stream` | A stream as a 1-d overdensity: matched-filter map of the Pal 5 field; rotation to stream coordinates (φ1, φ2); track and width in φ1 bins from a Gaussian + background fit; comparison with the `galstreams` Pal 5 track | `pal5_sdss`, `isochrones_sdss` | rotation round trip < 1e-6 deg; ≥ 2 segments on each side with TS above the largest TS of the control strips at φ2 = ±3.5°; median \|track − galstreams\| < 0.2° |
 | 08 | `08_injection_recovery` | Synthetic satellites from an isochrone + IMF, with the SDSS error model and magnitude limit, injected into a real patch; recovery with the Ch 05 search; efficiency vs (M_V, distance) at r_h = 50 pc, conditional on the catalogue selection; 25 injections per cell | `segue1_sdss` (outer field), `isochrones_sdss` | efficiency > 0.9 for M_V = −6 at 50 kpc; < 0.2 for M_V = −2 at 100 kpc |
 | 09 | `09_blind_search` | The frozen pipeline run once on a held-out SDSS region (136 deg² searched); threshold from 30 null realisations; report cards (maps of all stars, masked stars, S, galaxies; on/off/difference Hess), with a Willman 1 reference card and Leo IV after unblinding; unblinding against LVDB and SIMBAD | `holdout_sdss` | Leo IV and Leo V recovered. Outcome: 16 candidates vs ≲ 1 expected from uniform nulls — shredded nearby galaxies (UGC 6903, UGC 6780, NGC 3664) and clustered faint galaxies; the uniform null is too optimistic |
-| 10 | `10_gaia_allsky` | All-sky HEALPix counts computed in the database (source_id → HEALPix); Koposov et al. 2017 statistic (kernel density, annulus mean and variance) via spherical harmonics; Fig. 1 reproduced with DR1; kernels 4′/6′/12′ (3.4′ pixels); DR3, DR3 without stars with ϖ − 3σ_ϖ > 1 mas, and with 0.3 < BP−RP < 1.3 | `gaia_dr1_counts`, `gaia_dr3_counts`, `lvdb_mw` | Gaia 1 S > 6 and Gaia 2 S > 5 (4′), Crater 2 S > 5 (12′); plain parallax cuts ϖ ≤ 1 and ϖ ≤ 0.2 mas; S > 6 pixels grouped into detections, matched to all of LVDB (> 85% matched); report cards of the unmatched detections; recovery of known objects and spurious peaks per data version reported |
+| 10 | `10_gaia_allsky` | All-sky HEALPix counts computed in the database (source_id → HEALPix); Koposov et al. 2017 statistic (kernel density, annulus mean and variance) via spherical harmonics; Fig. 1 reproduced with DR1; kernels 4′/6′/12′ (3.4′ pixels); DR3, DR3 without stars with ϖ − 3σ_ϖ > 1 mas, and with 0.3 < BP−RP < 1.3 | `gaia_dr1_counts`, `gaia_dr3_counts`, LVDB | Gaia 1 S > 6 and Gaia 2 S > 5 (4′), Crater 2 S > 5 (12′); plain parallax cuts ϖ ≤ 1 and ϖ ≤ 0.2 mas; S > 6 pixels grouped into detections, matched to all of LVDB (> 85% matched); report cards of the unmatched detections; recovery of known objects and spurious peaks per data version reported |
 
 The holdout region is RA 165°–181°, Dec −3°…+8°. Students are told what it contains only after
 running the frozen search.
@@ -90,10 +90,10 @@ notebooks subtract the extinction explicitly.
 | `cosmos_hst` | COSMOS ACS: ra, dec, mag_auto (F814W), `mu_class`, `flux_radius` | 0.6° radius |
 | `cosmos_{sdss,ps1,ls,hsc}` | all sources with classifier columns | 0.6° radius |
 | `isochrones_sdss` | PARSEC 1.2S, SDSS ugriz: log age 9.9–10.1, [Fe/H] −2.1…−1.0 | — |
-| `lvdb` | LVDB v1.1.1 (CC0) rows used as references | — |
+| LVDB | v1.1.1 (CC0) `comb_all.csv`, read by `load_lvdb()` from the LVDB GitHub release (not in the data release) | — |
 
 v0.2 adds `retii_des`, `tuc3_des` (DES DR2), `{leo4,virgo1,bootes4}_{sdss,ps1,ls,hsc}`,
-`{bootes1,crater2}_gaia` (Gaia DR3 astrometry), `isochrones_{des,ps1,gaia}`, `lvdb_mw` and `lvdb_pm`; see `data/README.md`.
+`{bootes1,crater2}_gaia` (Gaia DR3 astrometry), `isochrones_{des,ps1,gaia}`, `lvdb_mw` and `lvdb_pm` (the `lvdb*` files are no longer used); see `data/README.md`.
 
 Every file is listed in `data/MANIFEST.json` (query text, WSDB table, rows, SHA-256, UTC time).
 Licences and acknowledgements are listed per product in `data/README.md`.

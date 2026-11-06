@@ -33,13 +33,17 @@ Floating-point columns are float32 except `ra` and `dec`.
 | `retii_des`, `tuc3_des` | DES DR2 point sources (`extended_class_coadd` 0 or 1), g < 24, within 2° of Reticulum II (also r < 24) and 4.5° of Tucana III (−0.3 < g − r < 1.0) |
 | `{leo4,virgo1,bootes4}_{sdss,ps1,ls,hsc}` | point sources by each survey's own classifier, within 0.75° of Leo IV, Virgo I, Boötes IV: SDSS `type = 6`, g < 23; PS1 r_PSF − r_Kron < 0.05, g < 23.5; LS DR9 `type = 'PSF'`, g < 24.5; HSC `i_extendedness_value = 0`, g < 25.5 |
 | `bootes1_gaia`, `crater2_gaia` | Gaia DR3 sources with a proper motion and G < 21 within 1.5° of Boötes I and 2.5° of Crater 2, with astrometric errors, the pmra–pmdec correlation and quality columns |
-| `lvdb` | rows of the Local Volume Database v1.1.1 (Pace 2025) for the objects used in Chapters 0–12 |
-| `lvdb_mw` | all Milky Way satellites and star clusters of LVDB v1.1.1 (`host = mw`): key, name, position, distance modulus, r_h, M_V, classification |
-| `lvdb_pm` | the LVDB v1.1.1 rows (all columns, including proper motions) for Boötes I and Crater 2 |
+| `lvdb` | rows of the Local Volume Database v1.1.1 (Pace 2025) for the objects used in Chapters 0–12. No longer read by the notebooks, which call `load_lvdb()` (see below); kept because release files are never removed. |
+| `lvdb_mw` | all Milky Way satellites and star clusters of LVDB v1.1.1 (`host = mw`): key, name, position, distance modulus, r_h, M_V, classification. No longer read by the notebooks, which call `load_lvdb()` (see below); kept because release files are never removed. |
+| `lvdb_pm` | the LVDB v1.1.1 rows (all columns, including proper motions) for Boötes I and Crater 2. No longer read by the notebooks, which call `load_lvdb()` (see below); kept because release files are never removed. |
 | `gaia_dr3_counts_plxcut` | all-sky DR3 counts (same grid and K17 selection) without stars of parallax > 1 mas (`n_plx1`) or > 0.2 mas (`n_plx02`), stars without a parallax kept; `_cmd`: also 0.3 < BP − RP < 1.3 |
 | `gaia_dr3_ch10_cands2` | Gaia DR3 sources, 17 < G < 21 (no excess-noise cut), within 1° of the 11 unmatched Chapter 10 detections (`cand`: detection index); `gaia_dr3_ch10_cands` is a superseded version for an earlier detection map |
-| `lvdb_all` | all 1727 objects of LVDB v1.1.1: key, name, host, table, position, distance modulus, r_h, M_V |
+| `lvdb_all` | all 1727 objects of LVDB v1.1.1: key, name, host, table, position, distance modulus, r_h, M_V. No longer read by the notebooks, which call `load_lvdb()` (see below); kept because release files are never removed. |
 | `gaia_dr1_counts`, `gaia_dr3_counts` | all-sky Gaia star counts on a HEALPix nside = 1024 nested grid (selection in `scripts/build_data.py`) |
+
+The Local Volume Database itself is not in the release: every notebook reads `comb_all.csv` of LVDB v1.1.1 directly from
+https://github.com/apace7/local_volume_database/releases/tag/v1.1.1 with `load_lvdb()`, which checks its SHA-256
+(`7d2f2316…`) and turns the 16 `-inf` values of `mass_dynamical_wolf` into NaN; missing values are already NaN.
 
 Survey-specific columns: SDSS `psfmag_*`, `psfmagerr_*`, `cmodelmag_*`, `extinction_*` (SFD98 × SDSS coefficients), `type`;
 PS1 stack `*psfmag`, `*kronmag`, `ebv`, and `ps_score` (Tachibana & Miller 2018); Legacy Surveys DR9 Tractor `type`,
